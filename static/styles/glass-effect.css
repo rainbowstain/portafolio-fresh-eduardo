@@ -1,0 +1,94 @@
+.glass-effect {
+  background: rgba(18, 18, 18, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 0, 0, 0.15);
+  /* Eliminamos el box-shadow externo */
+  box-shadow: none;
+  /* Añadimos un resplandor interno */
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  color: #ffffff;
+}
+
+/* Efecto bloom interno */
+.glass-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 30, 30, 0.08) 0%,
+    rgba(255, 30, 30, 0.03) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Contenido dentro del glass-effect */
+.glass-effect > * {
+  position: relative;
+  z-index: 2;
+}
+
+.glass-effect:hover {
+  background: rgba(24, 24, 24, 0.45);
+  border-color: rgba(255, 0, 0, 0.25);
+  /* Intensificamos el brillo interno al hacer hover */
+  transform: translateY(-2px);
+}
+
+/* Estilo para las estrellas del fondo espacial */
+.star {
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  animation: twinkle 4s infinite;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { opacity: 0.3; }
+}
+
+/* Estilos para los planetas y cuerpos celestes */
+.celestial-body {
+  position: absolute;
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+/* Mejoras para los elementos de habilidades */
+.skill-item {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.skill-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(255, 0, 0, 0.1), rgba(255, 0, 0, 0.3));
+  z-index: -1;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.skill-item:hover::before {
+  transform: translateY(0);
+}
+
+/* Mejoras para las tarjetas de proyectos */
+.project-card:hover .absolute {
+  height: 100%;
+}
