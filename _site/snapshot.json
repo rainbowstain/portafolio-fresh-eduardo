@@ -1,0 +1,112 @@
+{
+  "build_id": "cfd776572a26685d1b48a866bdb4749543daa941",
+  "files": {
+    "island-photomodal.js": [
+      "chunk-MEABNXAK.js",
+      "chunk-7NHJIUSQ.js",
+      "chunk-V66ALGLP.js"
+    ],
+    "island-photoviewer.js": [
+      "chunk-F4TXFQ6Y.js",
+      "chunk-IPT66BWZ.js",
+      "chunk-MEABNXAK.js",
+      "chunk-CUSQKVBU.js",
+      "chunk-7NHJIUSQ.js",
+      "chunk-GI7LLYGM.js",
+      "chunk-V66ALGLP.js"
+    ],
+    "island-profilephoto.js": [
+      "chunk-IPT66BWZ.js",
+      "chunk-MEABNXAK.js",
+      "chunk-CUSQKVBU.js",
+      "chunk-7NHJIUSQ.js",
+      "chunk-GI7LLYGM.js",
+      "chunk-V66ALGLP.js"
+    ],
+    "island-spacebackground.js": [
+      "chunk-IPT66BWZ.js",
+      "chunk-MEABNXAK.js",
+      "chunk-CUSQKVBU.js",
+      "chunk-7NHJIUSQ.js",
+      "chunk-GI7LLYGM.js",
+      "chunk-V66ALGLP.js"
+    ],
+    "main.js": [
+      "chunk-CUSQKVBU.js",
+      "chunk-GI7LLYGM.js",
+      "chunk-V66ALGLP.js"
+    ],
+    "deserializer.js": [],
+    "signals.js": [
+      "chunk-BVV3Q4ZD.js",
+      "chunk-7NHJIUSQ.js",
+      "chunk-GI7LLYGM.js",
+      "chunk-V66ALGLP.js"
+    ],
+    "island-aichat.js": [
+      "chunk-BVV3Q4ZD.js",
+      "chunk-IPT66BWZ.js",
+      "chunk-MEABNXAK.js",
+      "chunk-CUSQKVBU.js",
+      "chunk-7NHJIUSQ.js",
+      "chunk-GI7LLYGM.js",
+      "chunk-V66ALGLP.js"
+    ],
+    "chunk-BVV3Q4ZD.js": [
+      "chunk-7NHJIUSQ.js",
+      "chunk-V66ALGLP.js"
+    ],
+    "island-animations.js": [
+      "chunk-IPT66BWZ.js",
+      "chunk-MEABNXAK.js",
+      "chunk-CUSQKVBU.js",
+      "chunk-7NHJIUSQ.js",
+      "chunk-GI7LLYGM.js",
+      "chunk-V66ALGLP.js"
+    ],
+    "island-counter.js": [
+      "chunk-IPT66BWZ.js",
+      "chunk-MEABNXAK.js",
+      "chunk-CUSQKVBU.js",
+      "chunk-7NHJIUSQ.js",
+      "chunk-GI7LLYGM.js",
+      "chunk-V66ALGLP.js"
+    ],
+    "island-globalphotomodal.js": [
+      "chunk-IPT66BWZ.js",
+      "chunk-MEABNXAK.js",
+      "chunk-CUSQKVBU.js",
+      "chunk-7NHJIUSQ.js",
+      "chunk-GI7LLYGM.js",
+      "chunk-V66ALGLP.js"
+    ],
+    "island-modalportal.js": [
+      "chunk-F4TXFQ6Y.js",
+      "chunk-IPT66BWZ.js",
+      "chunk-MEABNXAK.js",
+      "chunk-CUSQKVBU.js",
+      "chunk-7NHJIUSQ.js",
+      "chunk-GI7LLYGM.js",
+      "chunk-V66ALGLP.js"
+    ],
+    "chunk-F4TXFQ6Y.js": [
+      "chunk-MEABNXAK.js",
+      "chunk-CUSQKVBU.js",
+      "chunk-7NHJIUSQ.js",
+      "chunk-V66ALGLP.js"
+    ],
+    "chunk-IPT66BWZ.js": [
+      "chunk-V66ALGLP.js"
+    ],
+    "chunk-MEABNXAK.js": [
+      "chunk-V66ALGLP.js"
+    ],
+    "chunk-CUSQKVBU.js": [],
+    "chunk-7NHJIUSQ.js": [
+      "chunk-V66ALGLP.js"
+    ],
+    "chunk-GI7LLYGM.js": [],
+    "chunk-V66ALGLP.js": [],
+    "metafile.json": []
+  }
+}

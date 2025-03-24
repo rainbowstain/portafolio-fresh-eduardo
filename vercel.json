@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "_fresh/**", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/_fresh/$1" },
+    { "handle": "filesystem" },
+    { "src": "/.*", "dest": "/_fresh/index.html" }
+  ]
+}

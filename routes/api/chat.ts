@@ -277,7 +277,7 @@ function generateSmartResponse(userMessage: string, _systemPrompt: string) {
     },
     // Contacto
     {
-      match: (msg: string) => /\b(contacto|email|correo|comunicar|mensaje)\b/i.test(msg),
+      match: (msg: string) => /\b(contacto|email|correo|comunicar|mensaje|contactar|hablar|contactarme|contactarte|contactar|contactemos|conectemos|conectar)\b/i.test(msg),
       generate: () => {
         const respuestas = [
           `${eduardoInfo.nombre} prefiere recibir mensajes directos en <a href="https://www.linkedin.com/in/eduardo-rojo-serrano/" target="_blank"><strong>LinkedIn</strong></a>. También puedes contactarlo por email: ${eduardoInfo.contacto}. Estará encantado de responder a tus consultas o propuestas. 📧`,

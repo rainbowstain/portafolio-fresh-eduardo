@@ -4,6 +4,19 @@ import { IS_BROWSER } from "$fresh/runtime.ts";
 // @ts-ignore - GSAP import
 const gsap = IS_BROWSER ? (window as any).gsap : null;
 
+// Temas que la IA puede responder (para los botones de sugerencia)
+const temasSugeridos = [
+  "Proyectos",
+  "Educación",
+  "Habilidades",
+  "Experiencia",
+  "Contacto",
+  "Hobbies",
+  "Tecnologías",
+  "Música",
+  "Videojuegos"
+];
+
 export default function AIChat() {
   const input = useSignal("");
   const messages = useSignal<{ role: "user" | "assistant"; content: string }[]>([
@@ -21,9 +34,12 @@ export default function AIChat() {
 
   // Auto-scroll to bottom whenever messages change y GSAP animations más sutiles
   useEffect(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }
+    // Usar setTimeout para asegurar que el scroll se ejecute después de la renderización
+    setTimeout(() => {
+      if (chatContainerRef.current) {
+        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      }
+    }, 10);
     
     // Animate the newest message if there's more than one - animación más sutil
     if (IS_BROWSER && gsap && messages.value.length > 1) {
@@ -50,6 +66,7 @@ export default function AIChat() {
     isLoading.value = true;
     isError.value = false;
     showSuggestions.value = false; // Ocultar sugerencias cuando se envía un mensaje
+    showTopicButtons.value = false; // Ocultar botones de temas mientras se procesa la respuesta
 
     try {
       // Mostrar mensaje temporal con puntos de carga
@@ -115,6 +132,9 @@ export default function AIChat() {
           messages.value = updatedMessages;
         }
       }
+      
+      // Mostrar los botones de temas después de recibir una respuesta
+      showTopicButtons.value = true;
     } catch (error) {
       console.error("Error:", error);
       isError.value = true;
@@ -143,6 +163,9 @@ export default function AIChat() {
     "¿Cómo puedo contactarte?",
     "¿Qué proyectos destacados has desarrollado?"
   ];
+  
+  // Estado para controlar la visibilidad de los botones de temas
+  const showTopicButtons = useSignal(false); // Inicialmente ocultos
 
   // Click handler para las sugerencias de texto en el chat
   useEffect(() => {
@@ -163,6 +186,27 @@ export default function AIChat() {
       };
     }
   }, []);
+  
+  // Click handler para los botones de temas - se actualiza cada vez que cambia showTopicButtons
+  useEffect(() => {
+    if (IS_BROWSER && showTopicButtons.value) {
+      const topicButtons = document.querySelectorAll('#topic-buttons button');
+      topicButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const topic = button.textContent || '';
+          handleSuggestionClick(`Háblame sobre ${topic}`);
+          showTopicButtons.value = false;
+        });
+      });
+      
+      // Cleanup
+      return () => {
+        topicButtons.forEach(button => {
+          button.removeEventListener('click', () => {});
+        });
+      };
+    }
+  }, [showTopicButtons.value]);
   
   // GSAP animations para elementos del chat cuando se carga
   useEffect(() => {
@@ -190,8 +234,16 @@ export default function AIChat() {
         { opacity: 1, y: 0, stagger: 0.05, duration: 0.4, delay: 0.5, ease: "power1.out" }
       );
       
-      // Efecto hover para sugerencias
-      suggestions.forEach(item => {
+      // Animación para los botones de temas
+      const topicButtons = document.querySelectorAll('#topic-buttons button');
+      gsap.fromTo(topicButtons,
+        { opacity: 0, y: 10, stagger: 0.05 },
+        { opacity: 1, y: 0, stagger: 0.05, duration: 0.4, delay: 0.3, ease: "power1.out" }
+      );
+      
+      // Efecto hover para sugerencias y botones de temas
+      const hoverElements = document.querySelectorAll('#ia-chat-suggestions span, #topic-buttons button');
+      hoverElements.forEach(item => {
         item.addEventListener('mouseenter', () => {
           gsap.to(item, { scale: 1.05, duration: 0.2, ease: "power1.out" });
         });
@@ -232,6 +284,46 @@ export default function AIChat() {
       </div>
       
       <div ref={chatWrapperRef} class="rounded-xl border border-nothing-gray overflow-hidden flex flex-col bg-nothing-black h-full relative chat-wrapper">
+        {/* Estilos globales para la scrollbar roja */}
+        <style>
+          {`
+            /* Estilo para scrollbar roja - compatible con todos los navegadores */
+            .chat-messages {
+              overflow-y: auto;
+              scrollbar-width: thin;
+              scrollbar-color: #ff0000 #1a1a1a;
+              -webkit-overflow-scrolling: touch;
+              scroll-behavior: smooth;
+              position: relative;
+            }
+            
+            .chat-messages::-webkit-scrollbar {
+              width: 12px;
+              background-color: #1a1a1a;
+            }
+            
+            .chat-messages::-webkit-scrollbar-thumb {
+              background-color: #ff0000;
+              border-radius: 6px;
+              border: 3px solid #1a1a1a;
+              min-height: 50px;
+            }
+            
+            .chat-messages::-webkit-scrollbar-thumb:hover {
+              background-color: #ff3333;
+            }
+            
+            .chat-messages::-webkit-scrollbar-track {
+              background-color: #1a1a1a;
+              border-radius: 6px;
+            }
+            
+            /* Asegurar que el contenido no se superponga a la scrollbar */
+            .chat-messages > * {
+              margin-right: 5px;
+            }
+          `}
+        </style>
         {/* Efecto de brillo para el borde */}
         <div class="absolute inset-0 border border-nothing-red/30 rounded-xl blur-sm pointer-events-none"></div>
         <div class="absolute -inset-0.5 bg-gradient-to-r from-nothing-red/10 via-nothing-red/5 to-nothing-red/10 rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse-slow"></div>
@@ -241,8 +333,8 @@ export default function AIChat() {
         {/* Chat messages */}
         <div 
           ref={chatContainerRef} 
-          class="p-4 space-y-4 overflow-y-auto flex-grow scrollbar-thin scrollbar-thumb-nothing-red/40 scrollbar-track-nothing-gray/20"
-          style="min-height: 430px; max-height: 530px; background: linear-gradient(to bottom, #000000, #0a0a0a 15%, #000000 40%); background-attachment: local;"
+          class="p-4 space-y-4 flex-grow chat-messages"
+          style="min-height: 430px; max-height: 530px; background: linear-gradient(to bottom, #000000, #0a0a0a 15%, #000000 40%); background-attachment: local; will-change: scroll-position;"
         >
         {/* Sugerencias de preguntas */}
         {showSuggestions.value && messages.value.length === 1 && (
@@ -323,6 +415,27 @@ export default function AIChat() {
         )}
         </div>
 
+        {/* Botones de temas después de cada respuesta */}
+        {showTopicButtons.value && (
+          <div id="topic-buttons" class="px-4 py-2 bg-gradient-to-r from-nothing-black to-nothing-black/95 border-t border-nothing-gray/30">
+            <div class="flex flex-wrap gap-1.5 justify-center">
+              {temasSugeridos.map((tema, index) => (
+                <button 
+                  key={index}
+                  type="button"
+                  onClick={() => {
+                    handleSuggestionClick(`Háblame sobre ${tema}`);
+                    showTopicButtons.value = false;
+                  }}
+                  class="px-2 py-1 bg-gradient-to-r from-nothing-red/20 to-nothing-red/10 text-nothing-white text-xs rounded-full cursor-pointer border border-nothing-red/20 hover:border-nothing-red/50 hover:from-nothing-red/30 hover:to-nothing-red/20 transition-all duration-300 shadow-sm transform hover:scale-105"
+                >
+                  {tema}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+        
         {/* Input area */}
         <form onSubmit={handleSubmit} class="border-t border-nothing-gray/50 p-5 flex gap-3 chat-input-container bg-gradient-to-b from-nothing-black via-nothing-black to-nothing-black/95 shadow-lg">
         <div class="relative flex-grow group">
