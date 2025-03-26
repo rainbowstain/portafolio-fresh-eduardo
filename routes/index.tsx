@@ -288,7 +288,7 @@ export default function Home() {
         <div id="chat" class="lg:col-span-12 p-6 rounded-lg glass-effect mb-6">
           <div class="flex flex-col gap-6">
             <h2 class="text-3xl font-bold mb-4 text-nothing-white relative overflow-hidden">
-              <span class="relative z-10">Cómo funciona SobremIA con Modelo e1</span>
+              <span class="relative z-10">Cómo funciona SobremIA</span>
               <span class="absolute bottom-0 left-0 w-full h-1 bg-nothing-red transform scale-x-0 origin-left transition-transform duration-500 hover:scale-x-100"></span>
             </h2>
             
