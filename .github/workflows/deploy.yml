@@ -23,8 +23,22 @@ jobs:
         with:
           deno-version: v2.x
 
+      - name: Setup environment
+        run: |
+          echo "🦕 Deno version:"
+          deno --version
+          echo "📁 Directory structure:"
+          ls -la
+          echo "📄 Checking deno.json:"
+          cat deno.json
+
       - name: Build step
-        run: "deno task build"
+        run: |
+          echo "🛠️ Running build process..."
+          deno task build
+          echo "✅ Build completed"
+          echo "📁 Generated files:"
+          ls -la _fresh
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
@@ -32,5 +46,6 @@ jobs:
           project: "eduardo-ia-portafolio"
           entrypoint: "main.ts"
           root: "."
+          import-map: "./deno.json"
           
           
