@@ -281,6 +281,15 @@ export default function AIChat() {
           <path d="M20 12h2"/>
         </svg>
         <span class="text-2xl tracking-tight">SobremIA Chat</span>
+        <a href="#chat" class="ml-3 flex items-center text-nothing-red hover:text-nothing-red/80 transition-colors duration-300 group relative">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 3L4 14h7l-2 7 9-11h-7l2-7z"/>
+          </svg>
+          <span class="ml-1 text-sm">Modelo e1</span>
+          <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1 bg-nothing-black text-nothing-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+            Arquitectura neuronal propia desarrollada por Eduardo Rojo
+          </div>
+        </a>
       </div>
       
       <div ref={chatWrapperRef} class="rounded-xl border border-nothing-gray overflow-hidden flex flex-col bg-nothing-black h-full relative chat-wrapper">
