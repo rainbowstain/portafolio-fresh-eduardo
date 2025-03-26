@@ -1383,6 +1383,7 @@ const conversationEngine = new NeuralConversationEngine();
 /**
  * Módulo de procesamiento conversacional
  * Interfaz entre el motor neural y la capa de API
+ * Implementa el ciclo completo del Modelo e1
  */
 function processConversation(userMessage: string, sessionId: string) {
   try {
