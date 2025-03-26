@@ -1,16 +1,35 @@
-# Fresh project
+# Portafolio de Eduardo - Modelo e1
 
-Your new Fresh project is ready to go. You can follow the Fresh "Getting
-Started" guide here: https://fresh.deno.dev/docs/getting-started
+Este proyecto implementa un portafolio interactivo con un asistente conversacional impulsado por el "Modelo e1", una arquitectura neural desarrollada desde cero.
 
-### Usage
+## Características Principales
 
-Make sure to install Deno: https://deno.land/manual/getting_started/installation
+- Asistente conversacional basado en el Modelo e1 (ver [documentación detallada](/docs/modelo-e1/README.md))
+- Interfaz interactiva desarrollada con Fresh y Deno
+- Diseño responsivo y accesible
 
-Then start the project:
+## Tecnologías Utilizadas
 
-```
+- **Frontend**: Fresh, TypeScript, Tailwind CSS
+- **Backend**: Deno, TypeScript
+- **Modelo Conversacional**: Arquitectura neural personalizada "Modelo e1"
+
+## Instalación
+
+Asegúrate de tener Deno instalado: https://deno.land/manual/getting_started/installation
+
+Luego, inicia el proyecto:
+
+```bash
 deno task start
 ```
 
-This will watch the project directory and restart as necessary.
+Esto iniciará el servidor de desarrollo y vigilará los cambios en el directorio del proyecto.
+
+## Documentación
+
+Para más información sobre el Modelo e1, consulta la [documentación detallada](/docs/modelo-e1/README.md).
+
+## Licencia
+
+MIT
