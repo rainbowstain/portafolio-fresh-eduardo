@@ -1,9 +1,10 @@
-// Modelo e1: Sistema Neural Conversacional
+// Modelo e1: Sistema Neural Conversacional v1.0.2
 // Desarrollado por Eduardo Rojo
 // -----------------------------------------------------
 // Implementación del motor conversacional basado en arquitectura de red neuronal simulada
 // con procesamiento contextual avanzado, sistema de memoria multidimensional y 
 // reconocimiento de intenciones mediante vectorización semántica.
+// Motor desplegado en producción - Marzo 2025
 
 import { Handlers } from "$fresh/server.ts";
 
