@@ -298,9 +298,9 @@ export default function Home() {
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-nothing-red mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  <h3 class="text-nothing-white font-bold">Arquitectura Técnica</h3>
+                  <h3 class="text-nothing-white font-bold">Modelo e1</h3>
                 </div>
-                <p class="text-nothing-lightgray text-sm">SobremIA utiliza la API gratuita de Hugging Face con el modelo gpt2 para generar respuestas contextuales. El sistema está construido con Deno y Fresh, aprovechando TypeScript para un código robusto y mantenible.</p>
+                <p class="text-nothing-lightgray text-sm">SobremIA funciona con el innovador "Modelo e1" desarrollado por Eduardo Rojo. Esta arquitectura neuronal propia opera con un sistema de memoria contextual y reconocimiento de intenciones, totalmente diseñado para ofrecer una experiencia de portafolio vivo e interactivo sin depender de APIs externas.</p>
               </div>
               
               <div class="bg-nothing-black bg-opacity-50 p-5 rounded-lg border-l-4 border-nothing-red">
@@ -308,28 +308,26 @@ export default function Home() {
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-nothing-red mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                   </svg>
-                  <h3 class="text-nothing-white font-bold">Respuestas Inteligentes</h3>
+                  <h3 class="text-nothing-white font-bold">Inteligencia Conversacional</h3>
                 </div>
-                <p class="text-nothing-lightgray text-sm">El chatbot está programado para reconocer patrones en las preguntas y seleccionar respuestas relevantes de una base de conocimiento personalizada. Incluye categorías como habilidades técnicas, experiencia profesional, proyectos y más.</p>
+                <p class="text-nothing-lightgray text-sm">El motor neural de SobremIA implementa sofisticados algoritmos de procesamiento semántico y análisis de intenciones. Su red neuronal simulada evalúa patrones contextuales, mantiene memoria de conversación y aplica vectorización de entidades para generar respuestas coherentes y naturales sobre Eduardo.</p>
               </div>
               
-             
               <div class="bg-nothing-black bg-opacity-50 p-5 rounded-lg border-l-4 border-nothing-red">
-  <div class="flex items-center mb-3">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-nothing-red mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4" />
-    </svg>
-    <h3 class="text-nothing-white font-bold">Experiencia Inmersiva</h3>
-  </div>
-  <p class="text-nothing-lightgray text-sm">
-    Con SobremIA, cada interacción se transforma en una experiencia única. Sumérgete en un entorno dinámico donde la inteligencia artificial te guía a través de un universo de conocimiento y posibilidades.
-  </p>
-</div>
-
+                <div class="flex items-center mb-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-nothing-red mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4" />
+                  </svg>
+                  <h3 class="text-nothing-white font-bold">Portafolio Vivo</h3>
+                </div>
+                <p class="text-nothing-lightgray text-sm">
+                  Más que un simple chatbot, SobremIA representa un portafolio vivo que evoluciona con cada interacción. Su sistema cognitivo multidimensional adapta dinámicamente las respuestas según el contexto conversacional, ofreciendo una experiencia inmersiva que transforma la manera tradicional de presentar perfiles profesionales.
+                </p>
+              </div>
             </div>
             
             <div class="mt-4 p-5 bg-nothing-black bg-opacity-30 rounded-lg border-t border-nothing-gray/30">
-              <p class="text-nothing-lightgray text-center">SobremIA representa una nueva forma de presentar información profesional, permitiéndote interactuar directamente con mi perfil en lugar de simplemente leer contenido estático. Prueba haciendo preguntas específicas sobre mis habilidades, experiencia o proyectos.</p>
+              <p class="text-nothing-lightgray text-center">El "Modelo e1" de SobremIA representa una innovación en la presentación de perfiles profesionales, fusionando arquitectura neuronal avanzada con diseño conversacional para crear una interfaz humana-máquina que conecta directamente con mi experiencia y conocimientos. Descubre una nueva dimensión de interacción profesional haciendo preguntas sobre mis proyectos, habilidades o trayectoria.</p>
             </div>
           </div>
         </div>
