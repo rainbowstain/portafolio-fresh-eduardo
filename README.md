@@ -1,6 +1,96 @@
-# Portafolio de Eduardo - Modelo e1
+# Portafolio de Eduardo con Fresh
 
-Este proyecto implementa un portafolio interactivo con un asistente conversacional impulsado por el "Modelo e1", una arquitectura neural desarrollada desde cero.
+Este es mi portafolio personal construido con Fresh, un framework web de Deno. Incluye una funcionalidad de chat IA llamada SobremIA.
+
+## Desarrollo local
+
+Para ejecutar el proyecto localmente:
+
+```bash
+deno task start
+```
+
+## Construcción
+
+Para construir el proyecto:
+
+```bash
+deno task build
+```
+
+## Sistema de Analíticas
+
+El proyecto incluye un sofisticado sistema de recolección y análisis de datos que permite:
+
+- Rastrear todas las interacciones de usuarios con el chatbot
+- Analizar patrones de preguntas y respuestas
+- Identificar las intenciones más comunes
+- Extraer palabras clave y entidades mencionadas
+- Generar estadísticas de uso y comportamiento
+
+### Acceso al Panel de Analíticas
+
+El panel de administración está disponible en:
+```
+/admin/analytics?token=sobremia2024
+```
+
+También puedes usar el token anterior `sobremia_admin` si ya lo tenías guardado.
+
+### Exportación de Datos
+
+Los datos pueden ser exportados en formato JSON o CSV desde:
+```
+/admin/export?format=json&token=sobremia2024
+/admin/export?format=csv&token=sobremia2024
+```
+
+Los datos se almacenan en archivos diarios en el directorio `data/`.
+
+## Despliegue
+
+### Despliegue en Deno Deploy
+
+Para desplegar en Deno Deploy:
+
+1. Asegúrate de tener deployctl instalado:
+   ```bash
+   deno install -gArf jsr:@deno/deployctl
+   ```
+
+2. Añade el directorio bin de Deno a tu PATH si no está ya:
+   ```bash
+   export PATH="$HOME/.deno/bin:$PATH"
+   ```
+
+3. Construye el proyecto:
+   ```bash
+   deno task build
+   ```
+
+4. Despliega el proyecto:
+   ```bash
+   deno task deploy
+   ```
+
+El proyecto estará disponible en:
+- https://eduardo.deno.dev
+
+### Despliegue en GitHub Pages
+
+Para desplegar en GitHub Pages:
+
+```bash
+./deploy-gh-pages.sh
+```
+
+## Tecnologías utilizadas
+
+- [Deno](https://deno.land/)
+- [Fresh](https://fresh.deno.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Preact](https://preactjs.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
 
 ## Características Principales
 
@@ -13,18 +103,6 @@ Este proyecto implementa un portafolio interactivo con un asistente conversacion
 - **Frontend**: Fresh, TypeScript, Tailwind CSS
 - **Backend**: Deno, TypeScript
 - **Modelo Conversacional**: Arquitectura neural personalizada "Modelo e1"
-
-## Instalación
-
-Asegúrate de tener Deno instalado: https://deno.land/manual/getting_started/installation
-
-Luego, inicia el proyecto:
-
-```bash
-deno task start
-```
-
-Esto iniciará el servidor de desarrollo y vigilará los cambios en el directorio del proyecto.
 
 ## Documentación
 

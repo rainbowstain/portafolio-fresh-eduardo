@@ -7,7 +7,8 @@
     "start": "deno run -A --watch=static/,routes/ dev.ts",
     "build": "deno run -A dev.ts build",
     "preview": "deno run -A main.ts",
-    "update": "deno run -A -r https://fresh.deno.dev/update ."
+    "update": "deno run -A -r https://fresh.deno.dev/update .",
+    "deploy": "export PATH=\"/Users/eduardo/.deno/bin:$PATH\" && deployctl deploy --project=eduardo --prod main.ts"
   },
   "lint": {
     "rules": {
@@ -36,5 +37,29 @@
     "jsx": "react-jsx",
     "jsxImportSource": "preact"
   },
-  "nodeModulesDir": "auto"
+  "nodeModulesDir": "auto",
+  "deploy": {
+    "project": "eduardo",
+    "entrypoint": "main.ts",
+    "include": [
+      "routes", 
+      "islands", 
+      "components", 
+      "static", 
+      "_fresh", 
+      "src",
+      "deno.json", 
+      "fresh.gen.ts", 
+      "main.ts", 
+      "dev.ts", 
+      "fresh.config.ts"
+    ],
+    "exclude": [
+      "**/node_modules",
+      ".git",
+      ".github",
+      ".vscode",
+      "data"
+    ]
+  }
 }

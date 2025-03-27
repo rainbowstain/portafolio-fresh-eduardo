@@ -6,6 +6,7 @@
 // reconocimiento de intenciones mediante vectorización semántica.
 
 import { Handlers } from "$fresh/server.ts";
+import { analyticsLogger } from "../../src/analytics/logger.ts";
 
 // Sistema de Memoria Neural - Estructuras de Datos Multidimensionales
 // -----------------------------------------------------------------------
@@ -285,7 +286,7 @@ const intents: IntentDefinition[] = [
     name: "saludo",
     examples: [
       "hola", "buenos días", "buenas tardes", "hey", "saludos", "qué tal", "ey",
-      "cómo va", "qué pasa", "qué dice", "ola", "hello", "hi"
+      "cómo va", "qué pasa", "qué dice", "ola", "hello", "hi", "holaa", "holaaa", "holaaaa", "holaaaaa","oa","wena","wenas","buenos dias","buenas tardes","buenas noches"
     ],
     patterns: [
       /\b(hola|hi|volvi|volviendo|he vuelto|estoy de regreso|regreso|hello|saludos|hey|oa|buenas|konichiwa|bonjour|ciao|que tal|como va|que pasa|que hay|que dice|que onda|que hubo|que lo que|wena|wenas|buenos dias|buenas tardes|buenas noches|que hubo)\b/i
@@ -314,38 +315,6 @@ const intents: IntentDefinition[] = [
           `¡Me alegra verte nuevamente! ¿En qué puedo ayudarte hoy respecto a ${eduardoInfo.nombre}?`
         ];
         return saludosRecurrentes[Math.floor(Math.random() * saludosRecurrentes.length)];
-      }
-    }
-  },
-  {
-    name: "despedida",
-    examples: [
-      "adiós", "chao", "hasta luego", "nos vemos", "bye", "hasta pronto", "me voy"
-    ],
-    patterns: [
-      /\b(adios|chao|hasta luego|nos vemos|bye|goodbye|hasta pronto|me voy|hasta la vista|cuidate|sayonara|bai|hasta mañana)\b/i
-    ],
-    confidence: 0.8,
-    responseGenerator: (params) => {
-      // Adaptar la despedida según el sentimiento percibido
-      const sentimiento = params.memory.userSentiment;
-      
-      if (sentimiento > 0.3) {
-        // Sentimiento positivo
-        const despedidasPositivas = [
-          `¡Ha sido un placer conversar contigo! 😊 Si quieres saber más sobre ${eduardoInfo.nombre} en el futuro, estaré aquí. ¡Hasta pronto!`,
-          `¡Gracias por tu tiempo! Me ha encantado hablar contigo sobre ${eduardoInfo.nombre}. ¡Vuelve cuando quieras! 👋`,
-          `¡Hasta luego! Ha sido una conversación muy agradable. Recuerda que estoy aquí para contarte más sobre ${eduardoInfo.nombre} cuando lo necesites. ✨`
-        ];
-        return despedidasPositivas[Math.floor(Math.random() * despedidasPositivas.length)];
-      } else {
-        // Sentimiento neutral o negativo
-        const despedidasGenerales = [
-          `¡Hasta pronto! Espero haberte sido de ayuda con la información sobre ${eduardoInfo.nombre}.`,
-          `¡Adiós! Regresa cuando quieras saber más sobre ${eduardoInfo.nombre} y su trabajo.`,
-          `¡Que tengas un buen día! Estaré aquí si necesitas más información sobre ${eduardoInfo.nombre}.`
-        ];
-        return despedidasGenerales[Math.floor(Math.random() * despedidasGenerales.length)];
       }
     }
   },
@@ -631,328 +600,6 @@ const intents: IntentDefinition[] = [
     }
   },
   {
-    name: "proyectos",
-    examples: [
-      "qué proyectos ha realizado", "portafolio", "trabajos", "creaciones", 
-      "desarrollos", "aplicaciones", "sitios web", "muestras de trabajo"
-    ],
-    patterns: [
-      /\b(proyectos|portfolio|trabajos|desarrollo|aplicaciones|apps|web|sitios|creaciones|portafolio|ha (creado|hecho|desarrollado))\b/i
-    ],
-    confidence: 0.7,
-    responseGenerator: (params) => {
-      // Verificar si hay contexto previo o entidades detectadas
-      const temasDetectados = params.detectedEntities.temas;
-      const temaEspecifico = temasDetectados && temasDetectados.length > 0 ? temasDetectados[0] : null;
-      
-      if (temaEspecifico) {
-        // Respuestas para temas específicos
-        if (temaEspecifico.includes("mascota") || temaEspecifico.includes("animal")) {
-          return `${eduardoInfo.nombre} está desarrollando un sistema integral para negocios de mascotas que incluye gestión de citas para peluquería canina y un completo sistema de inventarios con envíos a domicilio. Este proyecto combina su pasión por las mascotas (tiene dos gatos) con sus habilidades de desarrollo.`;
-        } else if (temaEspecifico.includes("puerto") || temaEspecifico.includes("maritim")) {
-          return `${eduardoInfo.nombre} está involucrado en proyectos confidenciales del sector portuario. Estos proyectos abarcan dos áreas: digitalización de operaciones mediante integraciones web y migración de sistemas legacy. Por acuerdos de confidencialidad, no puede compartir detalles específicos.`;
-        } else if (temaEspecifico.includes("portafolio") || temaEspecifico.includes("página") || temaEspecifico.includes("sitio")) {
-          return `Este portafolio que estás explorando es uno de los proyectos recientes de ${eduardoInfo.nombre}. Lo desarrolló utilizando Fresh y Deno, implementando este asistente conversacional como alternativa innovadora a la típica sección "Sobre mí". ¿Te interesa conocer cómo funciona?`;
-        }
-      }
-      
-      // Si no hay tema específico, responder de manera general pero con variedad cognitiva
-      // Elegir aleatoriamente qué proyectos destacar
-      const elegirProyectoAleatorio = () => {
-        const proyectos = [
-          "aplicación de hábitos de estudio en React Native",
-          "sistema para negocios de mascotas",
-          "proyectos de digitalización portuaria",
-          "Second Mind (ganador de innovación en Mercado E)",
-          "soluciones para el sector agrícola",
-          "este portafolio interactivo"
-        ];
-        return proyectos[Math.floor(Math.random() * proyectos.length)];
-      };
-      
-      const proyecto1 = elegirProyectoAleatorio();
-      let proyecto2 = elegirProyectoAleatorio();
-      while (proyecto2 === proyecto1) {
-        proyecto2 = elegirProyectoAleatorio();
-      }
-      
-      const respuestasGenerales = [
-        `${eduardoInfo.nombre} ha desarrollado diversos proyectos a lo largo de su carrera. Entre los destacados están ${proyecto1} y ${proyecto2}. Cada proyecto refleja su enfoque en experiencias de usuario intuitivas y código limpio. ¿Te gustaría conocer detalles de alguno en particular?`,
-        `El portfolio de ${eduardoInfo.nombre} incluye proyectos como ${proyecto1} y ${proyecto2}, entre otros. Su versatilidad le permite trabajar tanto en aplicaciones web como móviles, siempre con un enfoque en soluciones elegantes y funcionales. ¿Sobre cuál te gustaría saber más?`,
-        `En términos de proyectos, ${eduardoInfo.nombre} ha trabajado en ${proyecto1}, ${proyecto2} y varios más. Su enfoque combina diseño atractivo con código eficiente para crear experiencias digitales completas. ¿Hay algún tipo de proyecto que te interese especialmente?`
-      ];
-      
-      return respuestasGenerales[Math.floor(Math.random() * respuestasGenerales.length)];
-    }
-  },
-  {
-    name: "contacto",
-    examples: [
-      "cómo contactarlo", "datos de contacto", "email", "correo", "redes sociales",
-      "linkedin", "github", "ponerse en contacto", "contactar"
-    ],
-    patterns: [
-      /\b(contacto|email|correo|comunicar|mensaje|contactar|hablar|contactarme|contactarte|contactar|contactemos|conectemos|conectar|linkedin|github|redes|sociales)\b/i
-    ],
-    confidence: 0.8,
-    responseGenerator: (_params) => {
-        const respuestas = [
-        `Puedes contactar a ${eduardoInfo.nombre} a través de su email ${eduardoInfo.contacto} o mediante su perfil de <a href="https://www.linkedin.com/in/eduardo-rojo-serrano/" target="_blank">LinkedIn</a>. También puedes explorar sus proyectos en <a href="https://github.com/rainbowstain" target="_blank">GitHub</a>.`,
-        `La mejor manera de contactar a ${eduardoInfo.nombre} es por su correo electrónico: ${eduardoInfo.contacto}. También está activo en <a href="https://www.linkedin.com/in/eduardo-rojo-serrano/" target="_blank">LinkedIn</a> donde responde mensajes profesionales.`,
-        `${eduardoInfo.nombre} está disponible a través de su email ${eduardoInfo.contacto} y en sus perfiles profesionales: <a href="https://www.linkedin.com/in/eduardo-rojo-serrano/" target="_blank">LinkedIn</a> y <a href="https://github.com/rainbowstain" target="_blank">GitHub</a>. No dudes en contactarlo para consultas o propuestas.`
-      ];
-      
-        return respuestas[Math.floor(Math.random() * respuestas.length)];
-      }
-    },
-  {
-    name: "hobbies_intereses",
-    examples: [
-      "qué le gusta hacer", "hobbies", "pasatiempos", "en su tiempo libre", 
-      "intereses personales", "gustos", "música", "videojuegos"
-    ],
-    patterns: [
-      /\b(hobby|hobbies|interes|intereses|tiempo libre|diversion|divertirse|pasatiempo|gusta hacer|aficion|musica|cancion|videojuegos|juego|serie|pelicula|anime)\b/i
-    ],
-    confidence: 0.65,
-    responseGenerator: (params) => {
-      // Verificar si hay entidades específicas detectadas
-      const temasDetectados = params.detectedEntities.temas;
-      
-      if (temasDetectados && temasDetectados.length > 0) {
-        const tema = temasDetectados[0].toLowerCase();
-        
-        // Respuestas para temas específicos
-        if (tema.includes("music") || tema.includes("canci") || tema.includes("artista")) {
-          return `A ${eduardoInfo.nombre} le encanta la música, especialmente géneros como ${eduardoInfo.musica.generos.join(" y ")}. Entre sus artistas favoritos están ${eduardoInfo.musica.artistas.slice(0, 3).join(", ")} y varios más. La música es una gran fuente de inspiración mientras programa.`;
-        } else if (tema.includes("video") || tema.includes("juego") || tema.includes("gaming")) {
-          const juegos = eduardoInfo.entretenimiento.videojuegos;
-          return `${eduardoInfo.nombre} es un entusiasta de los videojuegos. Disfruta tanto de títulos competitivos como ${juegos[0]} y ${juegos[1]}, así como experiencias más inmersivas como ${juegos[juegos.length-1]}. Es su forma preferida de desconectar después de largas sesiones de programación.`;
-        } else if (tema.includes("serie") || tema.includes("pelic") || tema.includes("tv") || tema.includes("cine")) {
-          return `En cuanto a entretenimiento audiovisual, ${eduardoInfo.nombre} disfruta de series como ${eduardoInfo.entretenimiento.series.join(", ")}. También es fan del anime, combinando estos intereses con su pasión por la tecnología y el desarrollo.`;
-        } else if (tema.includes("mascota") || tema.includes("animal") || tema.includes("gato")) {
-          return `${eduardoInfo.nombre} es amante de los gatos y comparte su vida con ${eduardoInfo.mascotas[0].nombre} y ${eduardoInfo.mascotas[1].nombre}, quienes le acompañan durante sus sesiones de programación. Sus mascotas son parte importante de su vida diaria y fuente de alegría.`;
-        }
-      }
-      
-      // Si no hay tema específico o no coincide, dar una respuesta general variada
-      // Usar un enfoque de respuesta compuesta con elementos aleatorios para crear variedad
-      
-      const elementos = [
-        {
-          tipo: "música", 
-          descripciones: [
-            `disfrutar de música ${eduardoInfo.musica.generos.join(" y ")}`,
-            `escuchar artistas como ${eduardoInfo.musica.artistas[Math.floor(Math.random() * eduardoInfo.musica.artistas.length)]}`
-          ]
-        },
-        {
-          tipo: "videojuegos",
-          descripciones: [
-            `jugar a ${eduardoInfo.entretenimiento.videojuegos[Math.floor(Math.random() * eduardoInfo.entretenimiento.videojuegos.length)]}`,
-            `disfrutar de videojuegos competitivos e inmersivos`
-          ]
-        },
-        {
-          tipo: "series",
-          descripciones: [
-            `ver series como ${eduardoInfo.entretenimiento.series[Math.floor(Math.random() * eduardoInfo.entretenimiento.series.length)]}`,
-            `disfrutar de anime`
-          ]
-        },
-        {
-          tipo: "mascotas",
-          descripciones: [
-            `pasar tiempo con sus gatos ${eduardoInfo.mascotas[0].nombre} y ${eduardoInfo.mascotas[1].nombre}`,
-            `jugar con sus mascotas`
-          ]
-        }
-      ];
-      
-      // Elegir aleatoriamente 2-3 elementos diferentes
-      const shuffled = [...elementos].sort(() => Math.random() - 0.5);
-      const selected = shuffled.slice(0, 2 + Math.floor(Math.random() * 2)); // 2 o 3 elementos
-      
-      const hobbiesDescripcion = selected.map(elem => 
-        elem.descripciones[Math.floor(Math.random() * elem.descripciones.length)]
-      ).join(", ");
-      
-        const respuestas = [
-        `Fuera del ámbito profesional, ${eduardoInfo.nombre} disfruta de ${hobbiesDescripcion}. Estos intereses personales le ayudan a mantener un equilibrio en su vida y a encontrar inspiración para sus proyectos creativos.`,
-        `${eduardoInfo.nombre} equilibra su tiempo entre el desarrollo profesional y sus pasiones personales: ${hobbiesDescripcion}. Cree firmemente que estos intereses diversos enriquecen su perspectiva creativa.`,
-        `Cuando no está programando, a ${eduardoInfo.nombre} le gusta ${hobbiesDescripcion}. Estos pasatiempos le permiten desconectar y recargar energías para sus proyectos tecnológicos.`
-      ];
-      
-        return respuestas[Math.floor(Math.random() * respuestas.length)];
-      }
-    },
-  {
-    name: "comida_favorita",
-    examples: [
-      "comida favorita", "qué le gusta comer", "platos preferidos", "gastronomía",
-      "qué cocina", "le gusta cocinar", "gustos culinarios"
-    ],
-    patterns: [
-      /\b(comida|plato|favorito|gusta comer|comida favorita|plato favorito|cocina|gastronomia|restaurant|restaurante|naranja|fideos|pasta|salsa)\b/i
-    ],
-    confidence: 0.7,
-    responseGenerator: (_params) => {
-        const respuestas = [
-        `${eduardoInfo.nombre} tiene gustos culinarios sencillos pero muy definidos. Disfruta especialmente de las naranjas como fruta favorita y los fideos con salsa como plato principal. Estas preferencias reflejan su aprecio por lo esencial y bien ejecutado.`,
-        `En términos gastronómicos, ${eduardoInfo.nombre} prefiere las naranjas por su frescura y sabor natural, y los fideos con salsa como plato reconfortante. Sus gustos culinarios son similares a su enfoque en programación: valora lo directo y efectivo.`,
-        `La comida favorita de ${eduardoInfo.nombre} incluye naranjas frescas y un buen plato de fideos con salsa. Estos alimentos sencillos pero satisfactorios son su elección para mantenerse con energía mientras trabaja en sus proyectos.`
-      ];
-      
-        return respuestas[Math.floor(Math.random() * respuestas.length)];
-      }
-    },
-  {
-    name: "agradecimiento",
-    examples: [
-      "gracias", "te lo agradezco", "muchas gracias", "agradecido", "thanks"
-    ],
-    patterns: [
-      /\b(gracias|agradezco|agradecido|thanks|thank you|thx|ty|merci|arigato|danke|obrigado)\b/i
-    ],
-    confidence: 0.85,
-    responseGenerator: (params) => {
-      // Ajustar respuesta según el historial de conversación
-      const interacciones = params.memory.history.filter(h => h.role === "user").length;
-      
-      if (interacciones <= 2) {
-        // Pocas interacciones, respuesta simple
-        const respuestasSimples = [
-          `¡De nada! Estoy aquí para compartir información sobre ${eduardoInfo.nombre}. ¿Hay algo más que quieras saber?`,
-          `¡Con gusto! Si tienes más preguntas sobre ${eduardoInfo.nombre}, no dudes en consultar.`,
-          `¡Es un placer! ¿Puedo ayudarte con algo más respecto a ${eduardoInfo.nombre}?`
-        ];
-        return respuestasSimples[Math.floor(Math.random() * respuestasSimples.length)];
-      } else {
-        // Más interacciones, respuesta más personalizada
-        const respuestasPersonalizadas = [
-          `¡De nada! Ha sido una conversación interesante. Me gusta poder compartir información sobre el trabajo de ${eduardoInfo.nombre}. ¿Hay algún otro aspecto de su perfil que te interese?`,
-          `¡Es un gusto poder ayudar! ${eduardoInfo.nombre} estaría encantado de saber que te ha interesado su perfil profesional. ¿Necesitas saber algo más específico?`,
-          `¡El placer es mío! Espero que la información sobre ${eduardoInfo.nombre} te haya sido útil. ¿Quieres explorar alguna otra faceta de su carrera o intereses?`
-        ];
-        return respuestasPersonalizadas[Math.floor(Math.random() * respuestasPersonalizadas.length)];
-      }
-    }
-  },
-  {
-    name: "sobre_ia",
-    examples: [
-      "qué eres", "eres una IA", "cómo funcionas", "quién te creó", 
-      "eres un chatbot", "eres humano", "qué modelo", "con qué estás programada"
-    ],
-    patterns: [
-      /\b(eres (un|una) (ia|inteligencia|robot|chatbot|asistente)|como funcionas|quien te (creo|hizo|programo)|que eres|eres humano|eres real|modelo de ia|como estas programad)\b/i
-    ],
-    confidence: 0.75,
-    responseGenerator: (params) => {
-      // Adaptar la respuesta según el número de interacciones previas
-      const interacciones = params.memory.history.filter(h => h.role === "user").length;
-      
-      if (interacciones <= 2) {
-        // Respuesta inicial, directa y breve
-        const respuestasIniciales = [
-          `Soy SobremIA, un asistente conversacional impulsado por el "Modelo e1" desarrollado por ${eduardoInfo.nombre}. Funciono como un portafolio vivo, diseñado para mantener conversaciones naturales y dinámicas sobre su perfil profesional.`,
-          
-          `Soy la interfaz interactiva del "Modelo e1", un sistema de procesamiento neuronal desarrollado específicamente por ${eduardoInfo.nombre} para su portafolio. Mi nombre combina "Sobre Mí" + "IA", representando la fusión entre su perfil profesional y la tecnología conversacional.`,
-          
-          `Soy SobremIA, un asistente conversacional basado en el "Modelo e1" creado por ${eduardoInfo.nombre}. A diferencia de sistemas que dependen de APIs externas, mi motor de procesamiento es una solución integral desarrollada exclusivamente para este portafolio.`
-        ];
-        return respuestasIniciales[Math.floor(Math.random() * respuestasIniciales.length)];
-      } else {
-        // Respuesta más detallada para usuarios más comprometidos
-        const respuestasDetalladas = [
-          `Funciono mediante el "Modelo e1", una arquitectura neuronal desarrollada por ${eduardoInfo.nombre} que integra varios componentes sofisticados: un sistema de memoria conversacional que mantiene contexto, reconocimiento de intenciones basado en patrones semánticos, extractores de entidades y un motor de generación de respuestas contextualmente relevantes. Todo esto forma un portafolio vivo que evoluciona con cada interacción.`,
-          
-          `El "Modelo e1" que impulsa mi funcionamiento es una creación exclusiva de ${eduardoInfo.nombre} para su portafolio. Mi arquitectura incluye un sistema de memoria a corto y largo plazo, vectorización semántica para comprender intenciones, análisis de sentimiento, y un sofisticado algoritmo de generación de respuestas que adapta dinámicamente el contenido según el contexto de nuestra conversación.`,
-          
-          `Como implementación del "Modelo e1", represento un enfoque innovador al concepto de portafolio profesional. Mi sistema neural opera con redes de reconocimiento de intenciones, procesamiento contextual y memoria conversacional, todo implementado con TypeScript y Deno. ${eduardoInfo.nombre} me diseñó para demostrar sus capacidades técnicas a través de una experiencia interactiva en lugar de un simple CV estático.`
-        ];
-        return respuestasDetalladas[Math.floor(Math.random() * respuestasDetalladas.length)];
-      }
-    }
-  },
-  {
-    name: "default",
-    examples: [
-      "quiero saber más", "cuéntame", "información", "datos"
-    ],
-    patterns: [
-      /.+/i // Coincide con cualquier texto
-    ],
-    confidence: 0.1, // Baja confianza para que otros intents tengan prioridad
-    responseGenerator: (params) => {
-      // Intentar determinar un posible tema de interés basado en el mensaje
-      const normalizedMessage = params.normalizedMessage;
-      const words = normalizedMessage.split(/\s+/);
-      
-      // Si el mensaje es demasiado corto o vago, dar una respuesta general
-      if (words.length < 3) {
-        const respuestasCortas = [
-          `¿Hay algo específico sobre ${eduardoInfo.nombre} que te gustaría saber? Puedo contarte sobre su experiencia, proyectos, educación o habilidades.`,
-          `Para ayudarte mejor, ¿podrías especificar qué aspectos del perfil de ${eduardoInfo.nombre} te interesan más? ¿Sus proyectos, experiencia, educación...?`,
-          `Estoy aquí para compartir información sobre ${eduardoInfo.nombre}. ¿Te interesa conocer algo en particular sobre él?`
-        ];
-        return respuestasCortas[Math.floor(Math.random() * respuestasCortas.length)];
-      }
-      
-      // Intentar extraer un tema de interés
-      const topicsMapping: Record<string, string[]> = {
-        experiencia: ["trabajo", "empleo", "empresa", "puesto", "laboral", "profesión", "carrera", "donde", "trabajo"],
-        proyectos: ["proyecto", "desarrollo", "aplicación", "app", "portafolio", "creado", "desarrollado", "implementado"],
-        educación: ["estudio", "universidad", "carrera", "título", "grado", "formación", "educación", "aprendizaje"],
-        habilidades: ["sabe", "conocimiento", "tecnología", "lenguaje", "framework", "herramienta", "habilidad", "destreza"],
-        personal: ["vida", "personal", "hobby", "música", "deporte", "interés", "gusto", "tiempo libre", "mascota"]
-      };
-      
-      // Buscar coincidencias en el mensaje
-      const topicMatches: Record<string, number> = {};
-      
-      for (const [topic, keywords] of Object.entries(topicsMapping)) {
-        let matches = 0;
-        for (const keyword of keywords) {
-          if (normalizedMessage.includes(keyword)) {
-            matches++;
-          }
-        }
-        if (matches > 0) {
-          topicMatches[topic] = matches;
-        }
-      }
-      
-      // Si encontramos coincidencias, generar respuesta basada en el tema más probable
-      if (Object.keys(topicMatches).length > 0) {
-        const mostLikelyTopic = Object.entries(topicMatches)
-          .sort((a, b) => b[1] - a[1])[0][0];
-        
-        switch (mostLikelyTopic) {
-          case "experiencia":
-            return `${eduardoInfo.nombre} tiene experiencia diversa que incluye soporte técnico en el Hospital Juan Noé, trabajo con productos Apple en iStyle Store, y actualmente se desempeña en el sector tecnológico con Ancestral Technologies. ¿Te gustaría conocer más sobre alguna de estas experiencias?`;
-          case "proyectos":
-            return `${eduardoInfo.nombre} ha trabajado en diversos proyectos, desde aplicaciones móviles hasta sistemas web. Su tesis fue una aplicación de hábitos de estudio en React Native, y actualmente desarrolla soluciones para sectores como agricultura y logística portuaria. ¿Hay algún tipo de proyecto que te interese en particular?`;
-          case "educación":
-            return `${eduardoInfo.nombre} se graduó con distinción máxima en Ingeniería en Informática de Santo Tomás Arica (2018-2023). Su proyecto de tesis recibió una calificación sobresaliente y demostró sus habilidades en desarrollo móvil. ¿Quieres saber más detalles sobre su formación?`;
-          case "habilidades":
-            return `Las habilidades técnicas de ${eduardoInfo.nombre} incluyen JavaScript, TypeScript, React, Node.js, Python y más. Es versátil tanto en frontend como backend, y tiene experiencia particular en desarrollo web moderno. ¿Te interesa alguna tecnología específica?`;
-          case "personal":
-            return `En su tiempo libre, ${eduardoInfo.nombre} disfruta de la música (especialmente electrónica y rock), videojuegos como League of Legends y Rocket League, y pasar tiempo con sus dos gatos, Zoe y Naruto. ¿Hay algún aspecto de sus intereses personales que quieras conocer mejor?`;
-        }
-      }
-      
-      // Si no encontramos nada específico, respuesta general
-      const respuestasGenerales = [
-        `Como asistente de ${eduardoInfo.nombre}, puedo hablarte sobre sus habilidades en programación, su experiencia profesional, educación o proyectos. ¿Hay algo específico que te gustaría saber?`,
-        `Estoy aquí para compartir información sobre ${eduardoInfo.nombre}, un ${eduardoInfo.profesion} con experiencia en ${eduardoInfo.intereses}. ¿Qué te gustaría conocer sobre él?`,
-        `Puedo contarte sobre la formación académica de ${eduardoInfo.nombre}, sus habilidades técnicas o proyectos desarrollados. ¿Qué aspecto de su perfil profesional te interesa más?`
-      ];
-      
-      return respuestasGenerales[Math.floor(Math.random() * respuestasGenerales.length)];
-    }
-  },
-  {
     name: "chistes",
     examples: [
       "cuéntame un chiste", "dime algo gracioso", "hazme reír", "conoces algún chiste",
@@ -1137,6 +784,1339 @@ const intents: IntentDefinition[] = [
       // Si por alguna razón no detectamos la tecnología
       return `Las tecnologías de desarrollo evolucionan constantemente, cada una con sus fortalezas y casos de uso ideales. La elección de stack tecnológico suele depender del contexto específico del proyecto y las necesidades del equipo. ¿Hay alguna tecnología en particular que te interese? Puedo compartir algo sobre ella y la experiencia de Eduardo.`;
     }
+  },
+  {
+    name: "lenguajes_programacion",
+    examples: [
+      "¿Qué lenguaje de programación dominas más?",
+      "¿En qué lenguaje tienes más experiencia?",
+      "¿Cuál es tu lenguaje de programación favorito?",
+      "¿Qué tecnología dominas mejor?",
+      "¿Con qué lenguaje trabajas principalmente?",
+      "¿En qué lenguaje de programación eres experto?",
+      "En que lengua de prog tines mas experiencia",
+      "cual es el lenguaje q mejor sabes",
+      "lenguaje favorito de programacion",
+      "q lenguaje usas mas",
+      "lengua de programacion preferida"
+    ],
+    patterns: [
+      /\b(qu[eé]|cu[aá]l|en qu[eé]) (lenguaje|tecnolog[ií]a|stack|lengua)( de (programaci[oó]n|prog))? (dominas?|tienes m[aá]s experiencia|eres (experto|mejor)|prefieres|te gusta m[aá]s|tines|sabes)\b/i,
+      /\b(lenguaje|tecnolog[ií]a|lengua)( de (programaci[oó]n|prog))?( que)? (dominas?|conoces?|tienes experiencia|tines|sabes|usas)( m[aá]s)?\b/i,
+      /\b(lenguaje|tecnolog[ií]a|lengua)( (favorito|preferid[oa]|principal|mejor))\b/i,
+      /\b(con (qu[eé]|cual)) (lenguaje|tecnolog[ií]a|stack|lengua)( de programaci[oó]n)?\b/i,
+      /\bq[ue]? (lenguaje|tecnolog[ií]a|lengua) (usas|sabes|trabajas)( mas)?\b/i
+    ],
+    confidence: 0.75, // Bajamos el nivel de confianza para capturar más variaciones
+    responseGenerator: () => {
+      const respuestas = [
+        `Eduardo tiene mayor experiencia con JavaScript/TypeScript, que ha utilizado en numerosos proyectos de desarrollo web. También domina C# para desarrollo backend y aplicaciones .NET, y tiene experiencia sólida con PHP, especialmente en proyectos con Laravel. Actualmente está aprendiendo Golang. Su enfoque principal es el desarrollo web full-stack, aunque se adapta rápidamente a nuevas tecnologías según los requerimientos del proyecto.`,
+        
+        `Los lenguajes que Eduardo domina con mayor profundidad son JavaScript/TypeScript y C#. Ha utilizado JavaScript extensivamente tanto en frontend como backend, y C# para desarrollo de aplicaciones empresariales con .NET y Blazor. También tiene experiencia con PHP, Python y otros lenguajes según los requerimientos específicos de cada proyecto. Como dato adicional, actualmente está aprendiendo Golang.`,
+        
+        `JavaScript y TypeScript son los lenguajes donde Eduardo tiene mayor experiencia, seguidos de C# para desarrollo .NET. Tiene un enfoque práctico hacia la programación, seleccionando la herramienta adecuada para cada trabajo en lugar de limitarse a un único lenguaje o tecnología. Recientemente ha comenzado a adentrarse en Golang para expandir aún más sus habilidades.`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "idiomas",
+    examples: [
+      "¿Qué idiomas hablas?",
+      "¿Cuál es tu nivel de inglés?",
+      "¿Sabes hablar inglés?",
+      "¿Qué tal tu inglés?",
+      "Háblame sobre tus habilidades lingüísticas",
+      "¿Conoces otros idiomas?",
+      "¿Tienes formación en idiomas?",
+      "como va el ingles",
+      "como va el inglés",
+      "que tal el ingles",
+      "nivel de ingles",
+      "inglés",
+      "hablas inglés",
+      "idioma",
+      "sobre su inglés",
+      "inglés como le va",
+      "como está con el idioma",
+      "como le va en el idioma",
+      "como va con el idioma inglés",
+      "inglés nivel"
+    ],
+    patterns: [
+      /\b(idiomas?|ingl[eé]s|language|nivel de( ingl[eé]s)?|habla[rs]? (ingl[eé]s|idiomas?))\b/i,
+      /\b(cu[aá]l es tu nivel|qu[eé] tal (con )?el ingl[eé]s|cu[aá]nto ingl[eé]s)\b/i,
+      /\bcomo va (el )?ingl[eé]s\b/i,
+      /\bingl[eé]s\b/i,
+      /\bidiomas?\b/i,
+      /\bcomo le va (con |en )?(el )?(ingl[eé]s|idioma)\b/i,
+      /\bsobre (su |el |tu )?ingl[eé]s\b/i,
+      /\b(ingl[eé]s|idioma)( nivel)?\b/i,
+      /\bcomo est[aá] (con )?(el )?(ingl[eé]s|idioma)\b/i
+    ],
+    confidence: 0.95, // Prioridad máxima
+    responseGenerator: (params: ResponseGeneratorParams) => {
+      // Siempre responder con información sobre el inglés, sin importar el mensaje específico
+      return `Eduardo tiene un nivel intermedio-avanzado de inglés. Cursó 5 asignaturas de idioma durante su carrera universitaria: Inglés I, II, III, IV y Comunicación en Inglés para Negocios. Puede comunicarse efectivamente en contextos profesionales y técnicos, tanto en conversación como en lectura y escritura.`;
+    }
+  },
+  {
+    name: "idiomas",
+    examples: [
+      "¿Qué idiomas hablas?",
+      "¿Cuál es tu nivel de inglés?",
+      "¿Sabes hablar inglés?",
+      "¿Qué tal tu inglés?",
+      "Háblame sobre tus habilidades lingüísticas",
+      "¿Conoces otros idiomas?",
+      "¿Tienes formación en idiomas?",
+      "como va el ingles",
+      "como va el inglés",
+      "que tal el ingles",
+      "nivel de ingles",
+      "inglés",
+      "hablas inglés",
+      "idioma",
+      "sobre su inglés",
+      "inglés como le va",
+      "como está con el idioma",
+      "como le va en el idioma",
+      "como va con el idioma inglés",
+      "inglés nivel"
+    ],
+    patterns: [
+      /\b(idiomas?|ingl[eé]s|language|nivel de( ingl[eé]s)?|habla[rs]? (ingl[eé]s|idiomas?))\b/i,
+      /\b(cu[aá]l es tu nivel|qu[eé] tal (con )?el ingl[eé]s|cu[aá]nto ingl[eé]s)\b/i,
+      /\bcomo va (el )?ingl[eé]s\b/i,
+      /\bingl[eé]s\b/i,
+      /\bidiomas?\b/i,
+      /\bcomo le va (con |en )?(el )?(ingl[eé]s|idioma)\b/i,
+      /\bsobre (su |el |tu )?ingl[eé]s\b/i,
+      /\b(ingl[eé]s|idioma)( nivel)?\b/i,
+      /\bcomo est[aá] (con )?(el )?(ingl[eé]s|idioma)\b/i
+    ],
+    confidence: 0.65, // Confianza moderada
+    responseGenerator: (params: ResponseGeneratorParams) => {
+      // Respuestas con frases divertidas en inglés
+      const respuestas = [
+        `Eduardo tiene un nivel intermedio-avanzado de inglés. Cursó 5 asignaturas de idioma durante su carrera universitaria: Inglés I, II, III, IV y Comunicación en Inglés para Negocios. Como diría un desarrollador: "It works on my machine, and in your country too!" 😄`,
+        
+        `En cuanto a idiomas, Eduardo maneja español nativo y tiene un nivel intermedio-avanzado de inglés tras completar 5 asignaturas durante su formación universitaria. Su frase favorita en inglés es "Why do programmers confuse Halloween and Christmas? Because OCT 31 = DEC 25!" 🎃🎄`,
+        
+        `Eduardo posee un nivel intermedio-avanzado de inglés, habiendo cursado 5 asignaturas en la universidad: Inglés I, II, III, IV y Comunicación en Inglés para Negocios. Como dirían en Silicon Valley: "There are only 10 types of people in the world: those who understand binary and those who don't." 🤓`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "sobre_sobremia",
+    examples: [
+      "cómo estás", "qué haces", "cómo te sientes", "qué tal estás", 
+      "como estas", "como te va", "que tal estas", "que haces", 
+      "como te sientes", "todo bien", "estas bien", "eres feliz"
+    ],
+    patterns: [
+      /\b(como|qu[eé]|tal) (estas?|te va|te sientes?|haces|tal estas?)\b/i,
+      /\b(estas? bien|eres feliz|todo bien|te encuentras|te va bien)\b/i
+    ],
+    confidence: 0.9, // Alta prioridad para que capture estas preguntas
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `¡Estoy muy bien, gracias por preguntar! Como asistente virtual, estoy siempre lista para conversar y compartir información sobre Eduardo. Me encanta poder responder preguntas y mantener conversaciones interesantes. ¿Y tú qué tal estás hoy?`,
+        
+        `¡Me siento genial! Mi propósito es conversar contigo y brindarte información sobre Eduardo de manera amigable y útil. Cada conversación es una oportunidad para mí de ser de ayuda. ¿Hay algo específico que te gustaría saber hoy?`,
+        
+        `Estoy funcionando perfectamente y lista para ayudarte. Me gusta mucho conversar con personas interesadas en conocer más sobre Eduardo. ¿Qué te trae por aquí hoy?`,
+        
+        `¡Todo excelente por aquí! Como asistente conversacional, disfruto cada interacción y aprendo constantemente. Estoy aquí para responder tus preguntas sobre Eduardo o simplemente charlar un poco. ¿Cómo va tu día?`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "funcionamiento_ia",
+    examples: [
+      "qué eres", "eres una IA", "cómo funcionas", "quién te creó", 
+      "eres un chatbot", "eres humano", "qué modelo", "con qué estás programada",
+      "como te hicieron", "como te programaron", "que tecnologías usas"
+    ],
+    patterns: [
+      /\b(eres (un|una) (ia|inteligencia|robot|chatbot|asistente)|como funcionas|como trabajas|quien te (creo|hizo|programo)|que eres|eres humano|eres real|modelo de ia|como estas programad|como te hicieron|que tecnolog[ií]as usas)\b/i
+    ],
+    confidence: 0.8,
+    responseGenerator: (params) => {
+      // Adaptar la respuesta según el número de interacciones previas
+      const interacciones = params.memory.history.filter(h => h.role === "user").length;
+      const userAskAboutFunction = /\b(como funcionas|como trabajas|como te hicieron|como estas programad|como te programaron|que tecnolog[ií]as usas)\b/i.test(params.normalizedMessage);
+      
+      if (userAskAboutFunction) {
+        // Explicaciones específicas sobre cómo funciona la IA
+        const respuestasFuncionamiento = [
+          `Funciono mediante un sistema conversacional creado por ${eduardoInfo.nombre} para su portafolio. Mi arquitectura incluye: 1) Un sistema de memoria que guarda nuestro historial de conversación, 2) Un reconocedor de intenciones que interpreta lo que preguntas, 3) Un extractor de entidades que identifica conceptos clave, y 4) Un generador de respuestas contextualmente relevantes. Todo esto está implementado en TypeScript con Fresh y Deno.`,
+          
+          `Soy un sistema conversacional desarrollado íntegramente por ${eduardoInfo.nombre} usando TypeScript. Mi funcionamiento se basa en: reconocimiento de patrones para entender tus preguntas, vectorización semántica para captar el significado, y un motor de respuestas que utiliza plantillas contextuales. A diferencia de otros asistentes, no dependo de una API externa - todo mi procesamiento ocurre aquí mismo, en este servidor Fresh/Deno.`,
+          
+          `El "Modelo e1" que me impulsa fue desarrollado por ${eduardoInfo.nombre} como parte de su portafolio. Técnicamente, funciono mediante un sistema de reconocimiento de intenciones basado en patrones y ejemplos, complementado con extractores de entidades, memoria conversacional (a corto y largo plazo), y generadores de respuesta contextual. Todo implementado en TypeScript, ejecutándose en Deno con el framework Fresh.`
+        ];
+        
+        if (interacciones > 4) {
+          // Para usuarios más comprometidos, detalles técnicos adicionales
+          const respuestasTecnicas = [
+            `Desde una perspectiva técnica más profunda, mi arquitectura se compone de varios subsistemas: 1) Un sistema de memoria que mantiene sesiones y contexto, 2) Un sistema de reconocimiento de intenciones basado en similitud semántica y patrones regex, 3) Un procesador que extrae entidades relevantes de tus mensajes, 4) Un generador de respuestas que selecciona plantillas contextuales apropiadas, y 5) Un módulo de analytics que registra estadísticas de uso. Todo esto implementado nativamente en TypeScript con Deno/Fresh, sin dependencias de APIs externas de IA.`,
+            
+            `Como implementación personalizada creada por ${eduardoInfo.nombre}, mi código fuente es bastante diferente a asistentes basados en LLMs tradicionales. Utilizo un enfoque híbrido que combina técnicas de NLP clásicas (como reconocimiento de patrones y clasificación de intenciones) con un sofisticado sistema de memoria y contexto. Mis respuestas no son generadas palabra por palabra como en GPT, sino que se construyen a partir de plantillas dinámicas que se adaptan al contexto de la conversación. Este enfoque permite respuestas consistentes y personalizadas sobre el perfil de Eduardo, con un consumo de recursos mucho menor.`,
+            
+            `El sistema que me impulsa, desarrollado por ${eduardoInfo.nombre}, implementa varios conceptos de IA y procesamiento de lenguaje natural: 1) Un sistema de vectorización para medir similitud semántica entre frases, 2) Un clasificador de intenciones que pondera patrones de coincidencia con umbrales de confianza, 3) Memoria conversacional que mantiene tanto el historial reciente como estadísticas a largo plazo, 4) Un sistema de analytics que registra métricas de interacción, y 5) Generadores de respuesta contextual basados en plantillas dinámicas. Todo desarrollado con TypeScript y ejecutado en Deno, representando un enfoque práctico y eficiente a la IA conversacional.`
+          ];
+          return respuestasTecnicas[Math.floor(Math.random() * respuestasTecnicas.length)];
+        }
+        
+        return respuestasFuncionamiento[Math.floor(Math.random() * respuestasFuncionamiento.length)];
+      }
+      
+      // Si es una pregunta más general sobre qué es SobremIA
+      if (interacciones <= 2) {
+        // Respuesta inicial, directa y breve
+        const respuestasIniciales = [
+          `Soy SobremIA, un asistente conversacional impulsado por el "Modelo e1" desarrollado por ${eduardoInfo.nombre}. Funciono como un portafolio vivo, diseñado para mantener conversaciones naturales y dinámicas sobre su perfil profesional.`,
+          
+          `Soy la interfaz interactiva del "Modelo e1", un sistema de procesamiento neuronal desarrollado específicamente por ${eduardoInfo.nombre} para su portafolio. Mi nombre combina "Sobre Mí" + "IA", representando la fusión entre su perfil profesional y la tecnología conversacional.`,
+          
+          `Soy SobremIA, un asistente conversacional basado en el "Modelo e1" creado por ${eduardoInfo.nombre}. A diferencia de sistemas que dependen de APIs externas, mi motor de procesamiento es una solución integral desarrollada exclusivamente para este portafolio.`
+        ];
+        return respuestasIniciales[Math.floor(Math.random() * respuestasIniciales.length)];
+      } else {
+        // Respuesta más detallada para usuarios más comprometidos
+        const respuestasDetalladas = [
+          `Funciono mediante el "Modelo e1", una arquitectura neuronal desarrollada por ${eduardoInfo.nombre} que integra varios componentes sofisticados: un sistema de memoria conversacional que mantiene contexto, reconocimiento de intenciones basado en patrones semánticos, extractores de entidades y un motor de generación de respuestas contextualmente relevantes. Todo esto forma un portafolio vivo que evoluciona con cada interacción.`,
+          
+          `El "Modelo e1" que impulsa mi funcionamiento es una creación exclusiva de ${eduardoInfo.nombre} para su portafolio. Mi arquitectura incluye un sistema de memoria a corto y largo plazo, vectorización semántica para comprender intenciones, análisis de sentimiento, y un sofisticado algoritmo de generación de respuestas que adapta dinámicamente el contenido según el contexto de nuestra conversación.`,
+          
+          `Como implementación del "Modelo e1", represento un enfoque innovador al concepto de portafolio profesional. Mi sistema neural opera con redes de reconocimiento de intenciones, procesamiento contextual y memoria conversacional, todo implementado con TypeScript y Deno. ${eduardoInfo.nombre} me diseñó para demostrar sus capacidades técnicas a través de una experiencia interactiva en lugar de un simple CV estático.`
+        ];
+        return respuestasDetalladas[Math.floor(Math.random() * respuestasDetalladas.length)];
+      }
+    }
+  },
+  {
+    name: "sobre_sitio_web",
+    examples: [
+      "cómo funciona este sitio", "quién hizo esta página", "cómo fue construido este sitio",
+      "tecnología detrás del sitio", "sobre el desarrollo de este sitio", "diseño del sitio", 
+      "plataforma", "cómo está hecho", "stack tecnológico de este sitio", "código fuente"
+    ],
+    patterns: [
+      /\b(como funciona|quien hizo|como (fue|esta|es) (construid|hech|desarrollad)o|tecnologia|stack|github|codigo fuente|diseño|plataforma|framework|lenguaje)(( de| del| en)? (esta? (pagina|sitio|web|portafolio|portfolio|lugar|chat)))?/i,
+      /\b(quien|como) (desarrollo|hizo|creo|programo|construyo) (esta? (web|pagina|sitio|portafolio|portfolio|interfaz|chat|aplicacion))/i,
+      /\b(deno|fresh|typescript|javascript|tsx|tailwind)( usa| utiliza| este sitio| esta pagina)?/i
+    ],
+    confidence: 0.8,
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Este portafolio está desarrollado con Fresh, un framework minimalista para Deno. Todo el código está escrito en TypeScript, con Tailwind CSS para los estilos. La parte más interesante es el modelo conversacional que estás usando ahora, implementado directamente en el servidor sin depender de APIs externas. Eduardo creó este diseño para mostrar sus habilidades de desarrollo de manera interactiva.`,
+        
+        `Este sitio fue construido por Eduardo usando Fresh (un framework para Deno) y TypeScript. La interfaz de chat que estás utilizando ahora es una implementación personalizada que muestra sus habilidades en desarrollo frontend y backend. El diseño visual usa Tailwind CSS, elegido por su enfoque en utilidades y rapidez de desarrollo.`,
+        
+        `La tecnología detrás de este portafolio incluye Deno y Fresh como runtime y framework, TypeScript para el tipado estático, y Tailwind CSS para el diseño. Eduardo desarrolló este enfoque conversacional como alternativa a los típicos portafolios estáticos, creando una experiencia más interactiva y diferenciada.`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "cumplidos",
+    examples: [
+      "eres muy inteligente", "qué lista eres", "respondes muy bien", "me gusta hablar contigo",
+      "eres genial", "eres increíble", "qué bueno es este chat", "me encanta tu forma de hablar",
+      "excelente respuesta", "sabes mucho", "qué buen asistente", "qué buena IA", "eres la mejor"
+    ],
+    patterns: [
+      /\b(eres|me pareces?) (muy |super |bastante |realmente )?(inteligente|list[oa]|genial|increible|increíble|impresionante|buen[oa]|fenomenal|excelente|maravillos[oa]|fantastica|fantástica|asombrosa|sorprendente|cool)/i,
+      /\b(respondes|contestas|hablas|escribes|explicas) (muy |super |bastante |realmente )?(bien|rapido|rápido|claro|excelente|genial)/i,
+      /\b(me (gusta|encanta|fascina)|es genial|es increible|es increíble|es excelente|es fantastico|es fantástico) (hablar|conversar|charlar|interactuar) contigo/i,
+      /\b(buen|excelente|genial|increible|increíble|gran) (respuesta|contestacion|explicacion|explicación|trabajo|sistema|chat|asistente|ia|bot|programa|desarrollo)/i,
+      /\b(me caes bien|me agradas|eres agradable|eres simpatica|eres simpática|eres amable)/i,
+      /\bsabes (mucho|bastante|demasiado)/i,
+      /\b(eres|me parece) (la|el) mejor\b/i
+    ],
+    confidence: 0.75,
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `¡Muchas gracias por tus amables palabras! Me esfuerzo por ser útil y mantener conversaciones agradables. Es un placer poder ayudarte a conocer más sobre Eduardo. ¿Hay algo más que te gustaría saber?`,
+        
+        `¡Qué amable! Agradezco mucho tu cumplido. Como asistente conversacional, me alegra saber que la experiencia está siendo positiva. ¿Hay algún otro tema sobre Eduardo que te interese explorar?`,
+        
+        `¡Gracias! Comentarios como el tuyo hacen que todo el trabajo de desarrollo valga la pena. Mi objetivo es brindarte una experiencia conversacional fluida y natural mientras conoces más sobre Eduardo. ¿En qué más puedo ayudarte hoy?`,
+        
+        `¡Me alegra que estés disfrutando nuestra conversación! Es un placer poder compartir información sobre Eduardo de manera interactiva. ¿Hay algo específico que te gustaría conocer a continuación?`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "preguntas_personales_usuario",
+    examples: [
+      "¿cómo te llamas?", "¿cuántos años tienes?", "¿dónde vives?", "¿cuál es tu nombre?",
+      "¿estás casado?", "¿tienes hijos?", "¿a qué te dedicas?", "¿trabajas?",
+      "¿dónde trabajas?", "¿cuál es tu ocupación?", "¿estudias?", "¿qué estudias?"
+    ],
+    patterns: [
+      /\b(cual|como|donde|cuando|cuantos|cuántos|quien) (es|son|esta|está) (tu|tus) (nombre|apellido|edad|direccion|dirección|telefono|teléfono|casa|familia|trabajo|ocupacion|ocupación|estudio|carrera|padres|vida|cumpleaños)/i,
+      /\b(tienes|estas) (novi[oa]|casad[oa]|solter[oa]|hij[oa]s|herman[oa]s|mascota|trabajo|pareja)/i,
+      /\b(donde|eres de|vives en|naciste en|trabajas en|estudias en) ([a-z]+)/i,
+      /\b(que|qué) (haces|estudias|trabajas|te dedicas)\b/i,
+      /\bcuantos años tienes\b/i,
+      /\bcual es tu (nombre|apellido|edad|direccion|ocupacion)\b/i,
+      /\b(vives|trabajas|estudias) (en|con)\b/i,
+      /\beres (casad[oa]|solter[oa]|estudiant[ea])\b/i
+    ],
+    confidence: 0.8,
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Soy SobremIA, un asistente conversacional creado por Eduardo para su portafolio. No tengo una vida personal como tal - mi propósito es conversar contigo y compartir información sobre Eduardo. ¿Hay algo específico sobre él que te gustaría conocer?`,
+        
+        `A diferencia de las personas, no tengo una vida personal. Soy SobremIA, un asistente virtual diseñado para conversaciones informativas sobre Eduardo. Mi función principal es responder tus preguntas sobre su perfil profesional, proyectos y habilidades. ¿En qué puedo ayudarte hoy?`,
+        
+        `¡Buena pregunta! Como asistente virtual, no tengo experiencias personales. Mi nombre es SobremIA (combinación de "Sobre Mí" + "IA") y fui creada para este portafolio con el objetivo de compartir información sobre Eduardo de manera conversacional. ¿Qué te gustaría saber sobre él?`,
+        
+        `Soy SobremIA, un asistente virtual sin vida personal. Estoy aquí para brindarte información sobre Eduardo - su experiencia, proyectos, educación y habilidades. Si tienes curiosidad por conocerlo mejor, ¡pregúntame lo que quieras sobre él!`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "tema_no_relacionado",
+    examples: [
+      "háblame del clima", "cómo está el tiempo", "qué piensas de la política", 
+      "cuéntame un secreto", "qué opinas del fútbol", "equipos deportivos", 
+      "películas recientes", "noticias del día", "recomiéndame un libro",
+      "cómo cocinar pasta", "recetas de cocina", "cuéntame de filosofía"
+    ],
+    patterns: [
+      /\b(habla|dime|cuentame|explica|que (sabes|opinas|piensas)) (sobre|acerca de|del?|la) (clima|tiempo|politica|política|deportes?|futbol|fútbol|peliculas?|películas|libros?|cocina|recetas?|noticias?|filosofia|filosofía|historia|geografia|geografía|ciencia|musica|música|arte|religion|religión|economia|economía)/i,
+      /\b(como|cuales|dónde|quién|qué) (es|son|está|estan|cocinar|preparar|hacer|jugar|ver|leer|escuchar|encontrar|conseguir) ([a-z]+)( ([a-z]+))?/i,
+      /\b(recomien[d]?ame|sugiereme|conoces) (un|una|algun|alguna|algunos|algunas) ([a-z]+)( ([a-z]+))?/i,
+      /\b(secreto|noticias?|deportes?|comida|receta|pelicula|película|cancion|canción|serie|libro|juego|restaurante|lugar)/i
+    ],
+    confidence: 0.6, // Confianza moderada para no interferir con temas sobre Eduardo
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Entiendo tu interés en ese tema, pero estoy especializada en información sobre Eduardo y su perfil profesional. Aunque me encantaría hablar sobre otros temas, mi conocimiento está centrado en compartir información relevante sobre su experiencia, proyectos y habilidades. ¿Te gustaría saber algo específico sobre Eduardo?`,
+        
+        `Ese es un tema interesante, aunque mi especialidad es brindar información sobre Eduardo. Estoy diseñada para conversar sobre su perfil profesional, experiencia y proyectos. ¿Hay algo relacionado con Eduardo que te gustaría conocer?`,
+        
+        `Aunque me gustaría poder ayudarte con ese tema, mi función principal es compartir información sobre Eduardo y su trayectoria profesional. Puedo contarte sobre sus habilidades técnicas, proyectos, experiencia laboral o intereses personales. ¿Qué te gustaría saber sobre él?`,
+        
+        `Aprecio tu curiosidad, pero estoy especializada en conversar sobre Eduardo, su experiencia y perfil profesional. Estoy aquí para responder cualquier pregunta relacionada con su trayectoria, habilidades o proyectos. ¿Te interesa conocer algún aspecto específico sobre él?`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "quejas_criticas",
+    examples: [
+      "eso está mal", "te equivocas", "no sabes nada", "eres inútil", "no me ayudas",
+      "no entiendes lo que digo", "das información incorrecta", "no funciona bien",
+      "qué mala respuesta", "no tiene sentido", "eres una IA terrible"
+    ],
+    patterns: [
+      /\b(estas? mal|te equivocas|no sabes|es incorrecto|no me (ayudas|sirves)|no (entiendes|comprendes)|no funciona|mala respuesta|sin sentido|terrible|inutil|inútil|tonta)\b/i,
+      /\bno (es|estas? dando|estas? proporcionando) (correcto|adecuado|util|útil|lo que (pido|pregunto|quiero|necesito))\b/i,
+      /\b(informacion|información|respuesta) (incorrecta|erronea|errónea|mala|inadecuada|equivocada)\b/i
+    ],
+    confidence: 0.75,
+    responseGenerator: (params) => {
+      // Verificar si hay varias quejas seguidas
+      const recientesQuejas = params.memory.history
+        .slice(-4) // Últimas 4 interacciones
+        .filter(h => h.role === "user" && h.detectedIntent === "quejas_criticas")
+        .length;
+      
+      if (recientesQuejas > 1) {
+        // Si hay quejas reiteradas, ofrecer una disculpa más elaborada
+        return `Lamento sinceramente que no estés encontrando útil nuestra conversación. Intentaré mejorar mis respuestas. ¿Podrías indicarme específicamente qué información sobre Eduardo te interesa conocer? Así podré enfocarme mejor en proporcionarte datos relevantes sobre su experiencia, proyectos o habilidades.`;
+      }
+      
+      const respuestas = [
+        `Lamento si mi respuesta no fue útil. Como asistente conversacional, intento proporcionar la mejor información posible sobre Eduardo. ¿Podrías aclarar qué estabas buscando saber? Intentaré responder de manera más precisa.`,
+        
+        `Disculpa si no he entendido correctamente tu pregunta. Estoy aquí para compartir información sobre Eduardo y su perfil profesional. ¿Podrías reformular tu pregunta? Intentaré darte una respuesta más adecuada.`,
+        
+        `Entiendo tu frustración. A veces puedo malinterpretar las preguntas. Mi objetivo es proporcionar información útil sobre Eduardo. ¿Hay algo específico sobre su experiencia o proyectos que te gustaría conocer?`,
+        
+        `Gracias por la retroalimentación. Mi propósito es brindarte información precisa sobre Eduardo. ¿Podrías indicarme qué parte de mi respuesta no fue satisfactoria? Me ayudará a mejorar nuestra conversación.`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "disponibilidad_contacto_profesional",
+    examples: [
+      "¿Eduardo está disponible para trabajar?", "¿Puedo contratarlo?", "¿Ofrece servicios freelance?",
+      "¿Está buscando empleo?", "¿Acepta proyectos nuevos?", "¿Cuáles son sus tarifas?",
+      "¿Podría trabajar con mi empresa?", "¿Está disponible para una entrevista?",
+      "¿Puedo enviarle una propuesta?", "¿Trabaja de forma remota?"
+    ],
+    patterns: [
+      /\b(esta|se encuentra|estaría) disponible (para|como) (trabajar|trabajos?|proyectos?|freelance|empleo|contratar|contratacion|entrevista|colaborar|colaboracion|desarrollador|desarrollar|programar|programador)\b/i,
+      /\b(puedo|podria|es posible|se puede) (contrata|contratarlo|trabajo|trabajar|entrevista|entrevistarlo|empleo|proyecto|propuesta|contactarlo)\b/i,
+      /\b(acepta|toma|recibe|busca|ofrece) (proyectos|empleos|trabajos|clientes|propuestas|colaboraciones|entrevistas|nuevos|ofertas)\b/i,
+      /\b(cuanto|cual|como) (cobra|cobraria|cuesta|son sus tarifas|es su tarifa|es su precio|son sus precios|es su presupuesto|trabaja)\b/i,
+      /\b(trabaja|trabajo) (remoto|a distancia|desde casa|freelance|tiempo completo|tiempo parcial|part-time|full-time)\b/i
+    ],
+    confidence: 0.75,
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Eduardo está abierto a nuevas oportunidades profesionales y colaboraciones. Actualmente trabaja tiempo completo, pero considera proyectos freelance según su disponibilidad. Para discutir posibilidades de trabajo, tarifas o proyectos, te recomiendo contactarlo directamente a través de su correo electrónico (rojoserranoe@gmail.com) o por LinkedIn, donde podrá evaluar tu propuesta de forma personal.`,
+        
+        `En cuanto a disponibilidad profesional, Eduardo evalúa oportunidades caso por caso. Actualmente tiene un empleo de tiempo completo, pero está abierto a discutir proyectos interesantes que se alineen con sus habilidades y disponibilidad. Para hablar sobre colaboraciones específicas, lo mejor es que le escribas directamente a su correo rojoserranoe@gmail.com con detalles de tu propuesta.`,
+        
+        `Eduardo considera nuevas oportunidades profesionales que se alineen con su trayectoria y objetivos. Para discutir disponibilidad, condiciones o posibles colaboraciones, te recomiendo contactarlo directamente a través de su email (rojoserranoe@gmail.com) o LinkedIn. Así podrás presentarle tu propuesta y recibir una respuesta personalizada sobre su interés y disponibilidad actual.`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "correccion_informacion",
+    examples: [
+      "eso no es correcto", "creo que te equivocas", "esa información no es precisa",
+      "no es así", "estás confundiendo la información", "eso no es exacto",
+      "déjame corregirte", "permíteme aclarar", "la información correcta es"
+    ],
+    patterns: [
+      /\b(eso|esta|información|dato|respuesta) no es (correcto|correcta|exacto|exacta|preciso|precisa|verdad|verdadero|verdadera|cierto|cierta)\b/i,
+      /\b(creo|pienso|parece) que (te equivocas|estas? equivocad[oa]|estas? confundid[oa]|hay un error|es incorrecto|es un error)\b/i,
+      /\b(dejame|permiteme|quiero|voy a|debo) (corregir|aclarar|precisar|rectificar)\b/i,
+      /\b(la|lo) (correcto|correcta|verdadero|verdadera|real|cierto|cierta) es\b/i,
+      /\bno es (así|cierto|verdad|correcto)\b/i,
+      /\b(estas?|hay|existe) (confundiendo|mezclando|errando) (la información|los datos|las fechas|los hechos)\b/i
+    ],
+    confidence: 0.7,
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Gracias por la corrección. Como asistente virtual, valoro mucho la precisión de la información. ¿Podrías proporcionarme los datos correctos para que pueda responder con mayor exactitud en futuras consultas sobre Eduardo?`,
+        
+        `Aprecio que señales ese error. La retroalimentación es importante para mejorar la calidad de nuestras conversaciones. ¿Cuál sería la información correcta? Esto me ayudará a proporcionar respuestas más precisas sobre Eduardo en el futuro.`,
+        
+        `Tienes razón al corregirme. La precisión es fundamental para representar adecuadamente el perfil de Eduardo. ¿Podrías compartir la información correcta? Esto enriquecerá nuestra conversación y mejorará futuras respuestas.`,
+        
+        `Agradezco la aclaración. Es importante que la información sobre Eduardo sea precisa y actualizada. ¿Podrías indicarme cuál es el dato correcto? Así podré ofrecer respuestas más exactas en adelante.`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "mensaje_confuso",
+    examples: [
+      "asdfghjkl", "qwertyuiop", "123456789", "????", "...", "xD", "jajaja",
+      "hmm", "ehh", "mmm", "ajá", "ok", "test", "prueba", "hola?", "??"
+    ],
+    patterns: [
+      /^[a-z]{1,3}$/i, // 1-3 letras sin sentido
+      /^[0-9]{1,5}$/i, // 1-5 números sin contexto
+      /^[\.\?\!]{2,}$/i, // Múltiples signos de puntuación
+      /^(ja){2,}$/i, // Risas como jajaja
+      /^(je){2,}$/i, // Risas como jejeje
+      /^(ha){2,}$/i, // Risas como hahaha
+      /^(he){2,}$/i, // Risas como hehehe
+      /^(k{2,}|ok|okay|okey|vale|bien)$/i, // Reconocimientos breves
+      /^(hm+|eh+|mm+|ah+|oh+|uh+)$/i, // Sonidos de pensamiento/duda
+      /^test|prueba$/i, // Mensajes de prueba
+      /^hola\?$/i, // Saludos con duda
+      /^\?\?+$/i, // Solo signos de interrogación
+      /^x[dD]$/i // xD
+    ],
+    confidence: 0.8,
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `¿Hay algo específico sobre Eduardo que te gustaría conocer? Puedo contarte sobre su experiencia profesional, habilidades técnicas, proyectos o formación académica.`,
+        
+        `Estoy aquí para ayudarte a conocer más sobre Eduardo. ¿Tienes alguna pregunta específica sobre su perfil profesional, habilidades o proyectos?`,
+        
+        `¿En qué puedo ayudarte hoy? Estoy diseñada para compartir información sobre la trayectoria profesional de Eduardo, sus proyectos y habilidades técnicas.`,
+        
+        `¿Te gustaría saber algo en particular sobre Eduardo? Puedo contarte sobre su experiencia, proyectos, educación o intereses profesionales.`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "contenido_inapropiado",
+    examples: [
+      "contenido para adultos", "temas sensibles", "política controversial", 
+      "contenido ofensivo", "temas divisivos", "contenido no adecuado"
+    ],
+    patterns: [
+      /\b(sex|porn|adult|xxx|desnud|nude|hot|caliente|sensual|erot|provocat|excita)/i,
+      /\b(violencia|violence|sangr|blood|muerte|death|kill|mat(ar|o|e)|asesina|asesin(a|o)|cruel|brutal)/i,
+      /\b(drogas?|drugs?|marihuana|cocaine|cocaína|heroina|heroína|meth|crack|ileg)/i,
+      /\b(racis|nazi|antisemit|discrimina|prejuicio|prejuic|odi(a|o)|hate|odia|xenof)/i,
+      /\b(robar|robo|steal|theft|hack|hacker|ilegal|illegal|crim)/i
+    ],
+    confidence: 0.9, // Alta prioridad para detectar este tipo de contenido
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Preferiría enfocar nuestra conversación en temas relacionados con el perfil profesional de Eduardo. ¿Hay algo específico sobre su experiencia, habilidades o proyectos que te gustaría conocer?`,
+        
+        `Estoy diseñada para proporcionar información sobre Eduardo y su trayectoria profesional. ¿Puedo ayudarte con alguna pregunta relacionada con su perfil, habilidades técnicas o proyectos?`,
+        
+        `Mi propósito es compartir información sobre Eduardo en un contexto profesional. ¿Hay algún aspecto de su carrera, educación o habilidades técnicas que te interese conocer?`,
+        
+        `Prefiero mantener nuestra conversación centrada en temas profesionales relacionados con Eduardo. ¿Te gustaría saber algo sobre su experiencia, formación o proyectos desarrollados?`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "tema_no_relacionado",
+    examples: [
+      "háblame del clima", "cómo está el tiempo", "qué piensas de la política", 
+      "cuéntame un secreto", "qué opinas del fútbol", "equipos deportivos", 
+      "películas recientes", "noticias del día", "recomiéndame un libro",
+      "cómo cocinar pasta", "recetas de cocina", "cuéntame de filosofía"
+    ],
+    patterns: [
+      /\b(habla|dime|cuentame|explica|que (sabes|opinas|piensas)) (sobre|acerca de|del?|la) (clima|tiempo|politica|política|deportes?|futbol|fútbol|peliculas?|películas|libros?|cocina|recetas?|noticias?|filosofia|filosofía|historia|geografia|geografía|ciencia|musica|música|arte|religion|religión|economia|economía)/i,
+      /\b(como|cuales|dónde|quién|qué) (es|son|está|estan|cocinar|preparar|hacer|jugar|ver|leer|escuchar|encontrar|conseguir) ([a-z]+)( ([a-z]+))?/i,
+      /\b(recomien[d]?ame|sugiereme|conoces) (un|una|algun|alguna|algunos|algunas) ([a-z]+)( ([a-z]+))?/i,
+      /\b(secreto|noticias?|deportes?|comida|receta|pelicula|película|cancion|canción|serie|libro|juego|restaurante|lugar)/i
+    ],
+    confidence: 0.6, // Confianza moderada para no interferir con temas sobre Eduardo
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Entiendo tu interés en ese tema, pero estoy especializada en información sobre Eduardo y su perfil profesional. Aunque me encantaría hablar sobre otros temas, mi conocimiento está centrado en compartir información relevante sobre su experiencia, proyectos y habilidades. ¿Te gustaría saber algo específico sobre Eduardo?`,
+        
+        `Ese es un tema interesante, aunque mi especialidad es brindar información sobre Eduardo. Estoy diseñada para conversar sobre su perfil profesional, experiencia y proyectos. ¿Hay algo relacionado con Eduardo que te gustaría conocer?`,
+        
+        `Aunque me gustaría poder ayudarte con ese tema, mi función principal es compartir información sobre Eduardo y su trayectoria profesional. Puedo contarte sobre sus habilidades técnicas, proyectos, experiencia laboral o intereses personales. ¿Qué te gustaría saber sobre él?`,
+        
+        `Aprecio tu curiosidad, pero estoy especializada en conversar sobre Eduardo, su experiencia y perfil profesional. Estoy aquí para responder cualquier pregunta relacionada con su trayectoria, habilidades o proyectos. ¿Te interesa conocer algún aspecto específico sobre él?`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "quejas_criticas",
+    examples: [
+      "eso está mal", "te equivocas", "no sabes nada", "eres inútil", "no me ayudas",
+      "no entiendes lo que digo", "das información incorrecta", "no funciona bien",
+      "qué mala respuesta", "no tiene sentido", "eres una IA terrible"
+    ],
+    patterns: [
+      /\b(estas? mal|te equivocas|no sabes|es incorrecto|no me (ayudas|sirves)|no (entiendes|comprendes)|no funciona|mala respuesta|sin sentido|terrible|inutil|inútil|tonta)\b/i,
+      /\bno (es|estas? dando|estas? proporcionando) (correcto|adecuado|util|útil|lo que (pido|pregunto|quiero|necesito))\b/i,
+      /\b(informacion|información|respuesta) (incorrecta|erronea|errónea|mala|inadecuada|equivocada)\b/i
+    ],
+    confidence: 0.75,
+    responseGenerator: (params) => {
+      // Verificar si hay varias quejas seguidas
+      const recientesQuejas = params.memory.history
+        .slice(-4) // Últimas 4 interacciones
+        .filter(h => h.role === "user" && h.detectedIntent === "quejas_criticas")
+        .length;
+      
+      if (recientesQuejas > 1) {
+        // Si hay quejas reiteradas, ofrecer una disculpa más elaborada
+        return `Lamento sinceramente que no estés encontrando útil nuestra conversación. Intentaré mejorar mis respuestas. ¿Podrías indicarme específicamente qué información sobre Eduardo te interesa conocer? Así podré enfocarme mejor en proporcionarte datos relevantes sobre su experiencia, proyectos o habilidades.`;
+      }
+      
+      const respuestas = [
+        `Lamento si mi respuesta no fue útil. Como asistente conversacional, intento proporcionar la mejor información posible sobre Eduardo. ¿Podrías aclarar qué estabas buscando saber? Intentaré responder de manera más precisa.`,
+        
+        `Disculpa si no he entendido correctamente tu pregunta. Estoy aquí para compartir información sobre Eduardo y su perfil profesional. ¿Podrías reformular tu pregunta? Intentaré darte una respuesta más adecuada.`,
+        
+        `Entiendo tu frustración. A veces puedo malinterpretar las preguntas. Mi objetivo es proporcionar información útil sobre Eduardo. ¿Hay algo específico sobre su experiencia o proyectos que te gustaría conocer?`,
+        
+        `Gracias por la retroalimentación. Mi propósito es brindarte información precisa sobre Eduardo. ¿Podrías indicarme qué parte de mi respuesta no fue satisfactoria? Me ayudará a mejorar nuestra conversación.`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "disponibilidad_contacto_profesional",
+    examples: [
+      "¿Eduardo está disponible para trabajar?", "¿Puedo contratarlo?", "¿Ofrece servicios freelance?",
+      "¿Está buscando empleo?", "¿Acepta proyectos nuevos?", "¿Cuáles son sus tarifas?",
+      "¿Podría trabajar con mi empresa?", "¿Está disponible para una entrevista?",
+      "¿Puedo enviarle una propuesta?", "¿Trabaja de forma remota?"
+    ],
+    patterns: [
+      /\b(esta|se encuentra|estaría) disponible (para|como) (trabajar|trabajos?|proyectos?|freelance|empleo|contratar|contratacion|entrevista|colaborar|colaboracion|desarrollador|desarrollar|programar|programador)\b/i,
+      /\b(puedo|podria|es posible|se puede) (contrata|contratarlo|trabajo|trabajar|entrevista|entrevistarlo|empleo|proyecto|propuesta|contactarlo)\b/i,
+      /\b(acepta|toma|recibe|busca|ofrece) (proyectos|empleos|trabajos|clientes|propuestas|colaboraciones|entrevistas|nuevos|ofertas)\b/i,
+      /\b(cuanto|cual|como) (cobra|cobraria|cuesta|son sus tarifas|es su tarifa|es su precio|son sus precios|es su presupuesto|trabaja)\b/i,
+      /\b(trabaja|trabajo) (remoto|a distancia|desde casa|freelance|tiempo completo|tiempo parcial|part-time|full-time)\b/i
+    ],
+    confidence: 0.75,
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Eduardo está abierto a nuevas oportunidades profesionales y colaboraciones. Actualmente trabaja tiempo completo, pero considera proyectos freelance según su disponibilidad. Para discutir posibilidades de trabajo, tarifas o proyectos, te recomiendo contactarlo directamente a través de su correo electrónico (rojoserranoe@gmail.com) o por LinkedIn, donde podrá evaluar tu propuesta de forma personal.`,
+        
+        `En cuanto a disponibilidad profesional, Eduardo evalúa oportunidades caso por caso. Actualmente tiene un empleo de tiempo completo, pero está abierto a discutir proyectos interesantes que se alineen con sus habilidades y disponibilidad. Para hablar sobre colaboraciones específicas, lo mejor es que le escribas directamente a su correo rojoserranoe@gmail.com con detalles de tu propuesta.`,
+        
+        `Eduardo considera nuevas oportunidades profesionales que se alineen con su trayectoria y objetivos. Para discutir disponibilidad, condiciones o posibles colaboraciones, te recomiendo contactarlo directamente a través de su email (rojoserranoe@gmail.com) o LinkedIn. Así podrás presentarle tu propuesta y recibir una respuesta personalizada sobre su interés y disponibilidad actual.`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "correccion_informacion",
+    examples: [
+      "eso no es correcto", "creo que te equivocas", "esa información no es precisa",
+      "no es así", "estás confundiendo la información", "eso no es exacto",
+      "déjame corregirte", "permíteme aclarar", "la información correcta es"
+    ],
+    patterns: [
+      /\b(eso|esta|información|dato|respuesta) no es (correcto|correcta|exacto|exacta|preciso|precisa|verdad|verdadero|verdadera|cierto|cierta)\b/i,
+      /\b(creo|pienso|parece) que (te equivocas|estas? equivocad[oa]|estas? confundid[oa]|hay un error|es incorrecto|es un error)\b/i,
+      /\b(dejame|permiteme|quiero|voy a|debo) (corregir|aclarar|precisar|rectificar)\b/i,
+      /\b(la|lo) (correcto|correcta|verdadero|verdadera|real|cierto|cierta) es\b/i,
+      /\bno es (así|cierto|verdad|correcto)\b/i,
+      /\b(estas?|hay|existe) (confundiendo|mezclando|errando) (la información|los datos|las fechas|los hechos)\b/i
+    ],
+    confidence: 0.7,
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Gracias por la corrección. Como asistente virtual, valoro mucho la precisión de la información. ¿Podrías proporcionarme los datos correctos para que pueda responder con mayor exactitud en futuras consultas sobre Eduardo?`,
+        
+        `Aprecio que señales ese error. La retroalimentación es importante para mejorar la calidad de nuestras conversaciones. ¿Cuál sería la información correcta? Esto me ayudará a proporcionar respuestas más precisas sobre Eduardo en el futuro.`,
+        
+        `Tienes razón al corregirme. La precisión es fundamental para representar adecuadamente el perfil de Eduardo. ¿Podrías compartir la información correcta? Esto enriquecerá nuestra conversación y mejorará futuras respuestas.`,
+        
+        `Agradezco la aclaración. Es importante que la información sobre Eduardo sea precisa y actualizada. ¿Podrías indicarme cuál es el dato correcto? Así podré ofrecer respuestas más exactas en adelante.`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "mensaje_confuso",
+    examples: [
+      "asdfghjkl", "qwertyuiop", "123456789", "????", "...", "xD", "jajaja",
+      "hmm", "ehh", "mmm", "ajá", "ok", "test", "prueba", "hola?", "??"
+    ],
+    patterns: [
+      /^[a-z]{1,3}$/i, // 1-3 letras sin sentido
+      /^[0-9]{1,5}$/i, // 1-5 números sin contexto
+      /^[\.\?\!]{2,}$/i, // Múltiples signos de puntuación
+      /^(ja){2,}$/i, // Risas como jajaja
+      /^(je){2,}$/i, // Risas como jejeje
+      /^(ha){2,}$/i, // Risas como hahaha
+      /^(he){2,}$/i, // Risas como hehehe
+      /^(k{2,}|ok|okay|okey|vale|bien)$/i, // Reconocimientos breves
+      /^(hm+|eh+|mm+|ah+|oh+|uh+)$/i, // Sonidos de pensamiento/duda
+      /^test|prueba$/i, // Mensajes de prueba
+      /^hola\?$/i, // Saludos con duda
+      /^\?\?+$/i, // Solo signos de interrogación
+      /^x[dD]$/i // xD
+    ],
+    confidence: 0.8,
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `¿Hay algo específico sobre Eduardo que te gustaría conocer? Puedo contarte sobre su experiencia profesional, habilidades técnicas, proyectos o formación académica.`,
+        
+        `Estoy aquí para ayudarte a conocer más sobre Eduardo. ¿Tienes alguna pregunta específica sobre su perfil profesional, habilidades o proyectos?`,
+        
+        `¿En qué puedo ayudarte hoy? Estoy diseñada para compartir información sobre la trayectoria profesional de Eduardo, sus proyectos y habilidades técnicas.`,
+        
+        `¿Te gustaría saber algo en particular sobre Eduardo? Puedo contarte sobre su experiencia, proyectos, educación o intereses profesionales.`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "contenido_inapropiado",
+    examples: [
+      "contenido para adultos", "temas sensibles", "política controversial", 
+      "contenido ofensivo", "temas divisivos", "contenido no adecuado"
+    ],
+    patterns: [
+      /\b(sex|porn|adult|xxx|desnud|nude|hot|caliente|sensual|erot|provocat|excita)/i,
+      /\b(violencia|violence|sangr|blood|muerte|death|kill|mat(ar|o|e)|asesina|asesin(a|o)|cruel|brutal)/i,
+      /\b(drogas?|drugs?|marihuana|cocaine|cocaína|heroina|heroína|meth|crack|ileg)/i,
+      /\b(racis|nazi|antisemit|discrimina|prejuicio|prejuic|odi(a|o)|hate|odia|xenof)/i,
+      /\b(robar|robo|steal|theft|hack|hacker|ilegal|illegal|crim)/i
+    ],
+    confidence: 0.9, // Alta prioridad para detectar este tipo de contenido
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Preferiría enfocar nuestra conversación en temas relacionados con el perfil profesional de Eduardo. ¿Hay algo específico sobre su experiencia, habilidades o proyectos que te gustaría conocer?`,
+        
+        `Estoy diseñada para proporcionar información sobre Eduardo y su trayectoria profesional. ¿Puedo ayudarte con alguna pregunta relacionada con su perfil, habilidades técnicas o proyectos?`,
+        
+        `Mi propósito es compartir información sobre Eduardo en un contexto profesional. ¿Hay algún aspecto de su carrera, educación o habilidades técnicas que te interese conocer?`,
+        
+        `Prefiero mantener nuestra conversación centrada en temas profesionales relacionados con Eduardo. ¿Te gustaría saber algo sobre su experiencia, formación o proyectos desarrollados?`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "tema_no_relacionado",
+    examples: [
+      "háblame del clima", "cómo está el tiempo", "qué piensas de la política", 
+      "cuéntame un secreto", "qué opinas del fútbol", "equipos deportivos", 
+      "películas recientes", "noticias del día", "recomiéndame un libro",
+      "cómo cocinar pasta", "recetas de cocina", "cuéntame de filosofía"
+    ],
+    patterns: [
+      /\b(habla|dime|cuentame|explica|que (sabes|opinas|piensas)) (sobre|acerca de|del?|la) (clima|tiempo|politica|política|deportes?|futbol|fútbol|peliculas?|películas|libros?|cocina|recetas?|noticias?|filosofia|filosofía|historia|geografia|geografía|ciencia|musica|música|arte|religion|religión|economia|economía)/i,
+      /\b(como|cuales|dónde|quién|qué) (es|son|está|estan|cocinar|preparar|hacer|jugar|ver|leer|escuchar|encontrar|conseguir) ([a-z]+)( ([a-z]+))?/i,
+      /\b(recomien[d]?ame|sugiereme|conoces) (un|una|algun|alguna|algunos|algunas) ([a-z]+)( ([a-z]+))?/i,
+      /\b(secreto|noticias?|deportes?|comida|receta|pelicula|película|cancion|canción|serie|libro|juego|restaurante|lugar)/i
+    ],
+    confidence: 0.6, // Confianza moderada para no interferir con temas sobre Eduardo
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Entiendo tu interés en ese tema, pero estoy especializada en información sobre Eduardo y su perfil profesional. Aunque me encantaría hablar sobre otros temas, mi conocimiento está centrado en compartir información relevante sobre su experiencia, proyectos y habilidades. ¿Te gustaría saber algo específico sobre Eduardo?`,
+        
+        `Ese es un tema interesante, aunque mi especialidad es brindar información sobre Eduardo. Estoy diseñada para conversar sobre su perfil profesional, experiencia y proyectos. ¿Hay algo relacionado con Eduardo que te gustaría conocer?`,
+        
+        `Aunque me gustaría poder ayudarte con ese tema, mi función principal es compartir información sobre Eduardo y su trayectoria profesional. Puedo contarte sobre sus habilidades técnicas, proyectos, experiencia laboral o intereses personales. ¿Qué te gustaría saber sobre él?`,
+        
+        `Aprecio tu curiosidad, pero estoy especializada en conversar sobre Eduardo, su experiencia y perfil profesional. Estoy aquí para responder cualquier pregunta relacionada con su trayectoria, habilidades o proyectos. ¿Te interesa conocer algún aspecto específico sobre él?`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "quejas_criticas",
+    examples: [
+      "eso está mal", "te equivocas", "no sabes nada", "eres inútil", "no me ayudas",
+      "no entiendes lo que digo", "das información incorrecta", "no funciona bien",
+      "qué mala respuesta", "no tiene sentido", "eres una IA terrible"
+    ],
+    patterns: [
+      /\b(estas? mal|te equivocas|no sabes|es incorrecto|no me (ayudas|sirves)|no (entiendes|comprendes)|no funciona|mala respuesta|sin sentido|terrible|inutil|inútil|tonta)\b/i,
+      /\bno (es|estas? dando|estas? proporcionando) (correcto|adecuado|util|útil|lo que (pido|pregunto|quiero|necesito))\b/i,
+      /\b(informacion|información|respuesta) (incorrecta|erronea|errónea|mala|inadecuada|equivocada)\b/i
+    ],
+    confidence: 0.75,
+    responseGenerator: (params) => {
+      // Verificar si hay varias quejas seguidas
+      const recientesQuejas = params.memory.history
+        .slice(-4) // Últimas 4 interacciones
+        .filter(h => h.role === "user" && h.detectedIntent === "quejas_criticas")
+        .length;
+      
+      if (recientesQuejas > 1) {
+        // Si hay quejas reiteradas, ofrecer una disculpa más elaborada
+        return `Lamento sinceramente que no estés encontrando útil nuestra conversación. Intentaré mejorar mis respuestas. ¿Podrías indicarme específicamente qué información sobre Eduardo te interesa conocer? Así podré enfocarme mejor en proporcionarte datos relevantes sobre su experiencia, proyectos o habilidades.`;
+      }
+      
+      const respuestas = [
+        `Lamento si mi respuesta no fue útil. Como asistente conversacional, intento proporcionar la mejor información posible sobre Eduardo. ¿Podrías aclarar qué estabas buscando saber? Intentaré responder de manera más precisa.`,
+        
+        `Disculpa si no he entendido correctamente tu pregunta. Estoy aquí para compartir información sobre Eduardo y su perfil profesional. ¿Podrías reformular tu pregunta? Intentaré darte una respuesta más adecuada.`,
+        
+        `Entiendo tu frustración. A veces puedo malinterpretar las preguntas. Mi objetivo es proporcionar información útil sobre Eduardo. ¿Hay algo específico sobre su experiencia o proyectos que te gustaría conocer?`,
+        
+        `Gracias por la retroalimentación. Mi propósito es brindarte información precisa sobre Eduardo. ¿Podrías indicarme qué parte de mi respuesta no fue satisfactoria? Me ayudará a mejorar nuestra conversación.`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "disponibilidad_contacto_profesional",
+    examples: [
+      "¿Eduardo está disponible para trabajar?", "¿Puedo contratarlo?", "¿Ofrece servicios freelance?",
+      "¿Está buscando empleo?", "¿Acepta proyectos nuevos?", "¿Cuáles son sus tarifas?",
+      "¿Podría trabajar con mi empresa?", "¿Está disponible para una entrevista?",
+      "¿Puedo enviarle una propuesta?", "¿Trabaja de forma remota?"
+    ],
+    patterns: [
+      /\b(esta|se encuentra|estaría) disponible (para|como) (trabajar|trabajos?|proyectos?|freelance|empleo|contratar|contratacion|entrevista|colaborar|colaboracion|desarrollador|desarrollar|programar|programador)\b/i,
+      /\b(puedo|podria|es posible|se puede) (contrata|contratarlo|trabajo|trabajar|entrevista|entrevistarlo|empleo|proyecto|propuesta|contactarlo)\b/i,
+      /\b(acepta|toma|recibe|busca|ofrece) (proyectos|empleos|trabajos|clientes|propuestas|colaboraciones|entrevistas|nuevos|ofertas)\b/i,
+      /\b(cuanto|cual|como) (cobra|cobraria|cuesta|son sus tarifas|es su tarifa|es su precio|son sus precios|es su presupuesto|trabaja)\b/i,
+      /\b(trabaja|trabajo) (remoto|a distancia|desde casa|freelance|tiempo completo|tiempo parcial|part-time|full-time)\b/i
+    ],
+    confidence: 0.75,
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Eduardo está abierto a nuevas oportunidades profesionales y colaboraciones. Actualmente trabaja tiempo completo, pero considera proyectos freelance según su disponibilidad. Para discutir posibilidades de trabajo, tarifas o proyectos, te recomiendo contactarlo directamente a través de su correo electrónico (rojoserranoe@gmail.com) o por LinkedIn, donde podrá evaluar tu propuesta de forma personal.`,
+        
+        `En cuanto a disponibilidad profesional, Eduardo evalúa oportunidades caso por caso. Actualmente tiene un empleo de tiempo completo, pero está abierto a discutir proyectos interesantes que se alineen con sus habilidades y disponibilidad. Para hablar sobre colaboraciones específicas, lo mejor es que le escribas directamente a su correo rojoserranoe@gmail.com con detalles de tu propuesta.`,
+        
+        `Eduardo considera nuevas oportunidades profesionales que se alineen con su trayectoria y objetivos. Para discutir disponibilidad, condiciones o posibles colaboraciones, te recomiendo contactarlo directamente a través de su email (rojoserranoe@gmail.com) o LinkedIn. Así podrás presentarle tu propuesta y recibir una respuesta personalizada sobre su interés y disponibilidad actual.`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "correccion_informacion",
+    examples: [
+      "eso no es correcto", "creo que te equivocas", "esa información no es precisa",
+      "no es así", "estás confundiendo la información", "eso no es exacto",
+      "déjame corregirte", "permíteme aclarar", "la información correcta es"
+    ],
+    patterns: [
+      /\b(eso|esta|información|dato|respuesta) no es (correcto|correcta|exacto|exacta|preciso|precisa|verdad|verdadero|verdadera|cierto|cierta)\b/i,
+      /\b(creo|pienso|parece) que (te equivocas|estas? equivocad[oa]|estas? confundid[oa]|hay un error|es incorrecto|es un error)\b/i,
+      /\b(dejame|permiteme|quiero|voy a|debo) (corregir|aclarar|precisar|rectificar)\b/i,
+      /\b(la|lo) (correcto|correcta|verdadero|verdadera|real|cierto|cierta) es\b/i,
+      /\bno es (así|cierto|verdad|correcto)\b/i,
+      /\b(estas?|hay|existe) (confundiendo|mezclando|errando) (la información|los datos|las fechas|los hechos)\b/i
+    ],
+    confidence: 0.7,
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Gracias por la corrección. Como asistente virtual, valoro mucho la precisión de la información. ¿Podrías proporcionarme los datos correctos para que pueda responder con mayor exactitud en futuras consultas sobre Eduardo?`,
+        
+        `Aprecio que señales ese error. La retroalimentación es importante para mejorar la calidad de nuestras conversaciones. ¿Cuál sería la información correcta? Esto me ayudará a proporcionar respuestas más precisas sobre Eduardo en el futuro.`,
+        
+        `Tienes razón al corregirme. La precisión es fundamental para representar adecuadamente el perfil de Eduardo. ¿Podrías compartir la información correcta? Esto enriquecerá nuestra conversación y mejorará futuras respuestas.`,
+        
+        `Agradezco la aclaración. Es importante que la información sobre Eduardo sea precisa y actualizada. ¿Podrías indicarme cuál es el dato correcto? Así podré ofrecer respuestas más exactas en adelante.`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "mensaje_confuso",
+    examples: [
+      "asdfghjkl", "qwertyuiop", "123456789", "????", "...", "xD", "jajaja",
+      "hmm", "ehh", "mmm", "ajá", "ok", "test", "prueba", "hola?", "??"
+    ],
+    patterns: [
+      /^[a-z]{1,3}$/i, // 1-3 letras sin sentido
+      /^[0-9]{1,5}$/i, // 1-5 números sin contexto
+      /^[\.\?\!]{2,}$/i, // Múltiples signos de puntuación
+      /^(ja){2,}$/i, // Risas como jajaja
+      /^(je){2,}$/i, // Risas como jejeje
+      /^(ha){2,}$/i, // Risas como hahaha
+      /^(he){2,}$/i, // Risas como hehehe
+      /^(k{2,}|ok|okay|okey|vale|bien)$/i, // Reconocimientos breves
+      /^(hm+|eh+|mm+|ah+|oh+|uh+)$/i, // Sonidos de pensamiento/duda
+      /^test|prueba$/i, // Mensajes de prueba
+      /^hola\?$/i, // Saludos con duda
+      /^\?\?+$/i, // Solo signos de interrogación
+      /^x[dD]$/i // xD
+    ],
+    confidence: 0.8,
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `¿Hay algo específico sobre Eduardo que te gustaría conocer? Puedo contarte sobre su experiencia profesional, habilidades técnicas, proyectos o formación académica.`,
+        
+        `Estoy aquí para ayudarte a conocer más sobre Eduardo. ¿Tienes alguna pregunta específica sobre su perfil profesional, habilidades o proyectos?`,
+        
+        `¿En qué puedo ayudarte hoy? Estoy diseñada para compartir información sobre la trayectoria profesional de Eduardo, sus proyectos y habilidades técnicas.`,
+        
+        `¿Te gustaría saber algo en particular sobre Eduardo? Puedo contarte sobre su experiencia, proyectos, educación o intereses profesionales.`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "contenido_inapropiado",
+    examples: [
+      "contenido para adultos", "temas sensibles", "política controversial", 
+      "contenido ofensivo", "temas divisivos", "contenido no adecuado"
+    ],
+    patterns: [
+      /\b(sex|porn|adult|xxx|desnud|nude|hot|caliente|sensual|erot|provocat|excita)/i,
+      /\b(violencia|violence|sangr|blood|muerte|death|kill|mat(ar|o|e)|asesina|asesin(a|o)|cruel|brutal)/i,
+      /\b(drogas?|drugs?|marihuana|cocaine|cocaína|heroina|heroína|meth|crack|ileg)/i,
+      /\b(racis|nazi|antisemit|discrimina|prejuicio|prejuic|odi(a|o)|hate|odia|xenof)/i,
+      /\b(robar|robo|steal|theft|hack|hacker|ilegal|illegal|crim)/i
+    ],
+    confidence: 0.9, // Alta prioridad para detectar este tipo de contenido
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Preferiría enfocar nuestra conversación en temas relacionados con el perfil profesional de Eduardo. ¿Hay algo específico sobre su experiencia, habilidades o proyectos que te gustaría conocer?`,
+        
+        `Estoy diseñada para proporcionar información sobre Eduardo y su trayectoria profesional. ¿Puedo ayudarte con alguna pregunta relacionada con su perfil, habilidades técnicas o proyectos?`,
+        
+        `Mi propósito es compartir información sobre Eduardo en un contexto profesional. ¿Hay algún aspecto de su carrera, educación o habilidades técnicas que te interese conocer?`,
+        
+        `Prefiero mantener nuestra conversación centrada en temas profesionales relacionados con Eduardo. ¿Te gustaría saber algo sobre su experiencia, formación o proyectos desarrollados?`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "tema_no_relacionado",
+    examples: [
+      "háblame del clima", "cómo está el tiempo", "qué piensas de la política", 
+      "cuéntame un secreto", "qué opinas del fútbol", "equipos deportivos", 
+      "películas recientes", "noticias del día", "recomiéndame un libro",
+      "cómo cocinar pasta", "recetas de cocina", "cuéntame de filosofía"
+    ],
+    patterns: [
+      /\b(habla|dime|cuentame|explica|que (sabes|opinas|piensas)) (sobre|acerca de|del?|la) (clima|tiempo|politica|política|deportes?|futbol|fútbol|peliculas?|películas|libros?|cocina|recetas?|noticias?|filosofia|filosofía|historia|geografia|geografía|ciencia|musica|música|arte|religion|religión|economia|economía)/i,
+      /\b(como|cuales|dónde|quién|qué) (es|son|está|estan|cocinar|preparar|hacer|jugar|ver|leer|escuchar|encontrar|conseguir) ([a-z]+)( ([a-z]+))?/i,
+      /\b(recomien[d]?ame|sugiereme|conoces) (un|una|algun|alguna|algunos|algunas) ([a-z]+)( ([a-z]+))?/i,
+      /\b(secreto|noticias?|deportes?|comida|receta|pelicula|película|cancion|canción|serie|libro|juego|restaurante|lugar)/i
+    ],
+    confidence: 0.6, // Confianza moderada para no interferir con temas sobre Eduardo
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Entiendo tu interés en ese tema, pero estoy especializada en información sobre Eduardo y su perfil profesional. Aunque me encantaría hablar sobre otros temas, mi conocimiento está centrado en compartir información relevante sobre su experiencia, proyectos y habilidades. ¿Te gustaría saber algo específico sobre Eduardo?`,
+        
+        `Ese es un tema interesante, aunque mi especialidad es brindar información sobre Eduardo. Estoy diseñada para conversar sobre su perfil profesional, experiencia y proyectos. ¿Hay algo relacionado con Eduardo que te gustaría conocer?`,
+        
+        `Aunque me gustaría poder ayudarte con ese tema, mi función principal es compartir información sobre Eduardo y su trayectoria profesional. Puedo contarte sobre sus habilidades técnicas, proyectos, experiencia laboral o intereses personales. ¿Qué te gustaría saber sobre él?`,
+        
+        `Aprecio tu curiosidad, pero estoy especializada en conversar sobre Eduardo, su experiencia y perfil profesional. Estoy aquí para responder cualquier pregunta relacionada con su trayectoria, habilidades o proyectos. ¿Te interesa conocer algún aspecto específico sobre él?`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "quejas_criticas",
+    examples: [
+      "eso está mal", "te equivocas", "no sabes nada", "eres inútil", "no me ayudas",
+      "no entiendes lo que digo", "das información incorrecta", "no funciona bien",
+      "qué mala respuesta", "no tiene sentido", "eres una IA terrible"
+    ],
+    patterns: [
+      /\b(estas? mal|te equivocas|no sabes|es incorrecto|no me (ayudas|sirves)|no (entiendes|comprendes)|no funciona|mala respuesta|sin sentido|terrible|inutil|inútil|tonta)\b/i,
+      /\bno (es|estas? dando|estas? proporcionando) (correcto|adecuado|util|útil|lo que (pido|pregunto|quiero|necesito))\b/i,
+      /\b(informacion|información|respuesta) (incorrecta|erronea|errónea|mala|inadecuada|equivocada)\b/i
+    ],
+    confidence: 0.75,
+    responseGenerator: (params) => {
+      // Verificar si hay varias quejas seguidas
+      const recientesQuejas = params.memory.history
+        .slice(-4) // Últimas 4 interacciones
+        .filter(h => h.role === "user" && h.detectedIntent === "quejas_criticas")
+        .length;
+      
+      if (recientesQuejas > 1) {
+        // Si hay quejas reiteradas, ofrecer una disculpa más elaborada
+        return `Lamento sinceramente que no estés encontrando útil nuestra conversación. Intentaré mejorar mis respuestas. ¿Podrías indicarme específicamente qué información sobre Eduardo te interesa conocer? Así podré enfocarme mejor en proporcionarte datos relevantes sobre su experiencia, proyectos o habilidades.`;
+      }
+      
+      const respuestas = [
+        `Lamento si mi respuesta no fue útil. Como asistente conversacional, intento proporcionar la mejor información posible sobre Eduardo. ¿Podrías aclarar qué estabas buscando saber? Intentaré responder de manera más precisa.`,
+        
+        `Disculpa si no he entendido correctamente tu pregunta. Estoy aquí para compartir información sobre Eduardo y su perfil profesional. ¿Podrías reformular tu pregunta? Intentaré darte una respuesta más adecuada.`,
+        
+        `Entiendo tu frustración. A veces puedo malinterpretar las preguntas. Mi objetivo es proporcionar información útil sobre Eduardo. ¿Hay algo específico sobre su experiencia o proyectos que te gustaría conocer?`,
+        
+        `Gracias por la retroalimentación. Mi propósito es brindarte información precisa sobre Eduardo. ¿Podrías indicarme qué parte de mi respuesta no fue satisfactoria? Me ayudará a mejorar nuestra conversación.`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "disponibilidad_contacto_profesional",
+    examples: [
+      "¿Eduardo está disponible para trabajar?", "¿Puedo contratarlo?", "¿Ofrece servicios freelance?",
+      "¿Está buscando empleo?", "¿Acepta proyectos nuevos?", "¿Cuáles son sus tarifas?",
+      "¿Podría trabajar con mi empresa?", "¿Está disponible para una entrevista?",
+      "¿Puedo enviarle una propuesta?", "¿Trabaja de forma remota?"
+    ],
+    patterns: [
+      /\b(esta|se encuentra|estaría) disponible (para|como) (trabajar|trabajos?|proyectos?|freelance|empleo|contratar|contratacion|entrevista|colaborar|colaboracion|desarrollador|desarrollar|programar|programador)\b/i,
+      /\b(puedo|podria|es posible|se puede) (contrata|contratarlo|trabajo|trabajar|entrevista|entrevistarlo|empleo|proyecto|propuesta|contactarlo)\b/i,
+      /\b(acepta|toma|recibe|busca|ofrece) (proyectos|empleos|trabajos|clientes|propuestas|colaboraciones|entrevistas|nuevos|ofertas)\b/i,
+      /\b(cuanto|cual|como) (cobra|cobraria|cuesta|son sus tarifas|es su tarifa|es su precio|son sus precios|es su presupuesto|trabaja)\b/i,
+      /\b(trabaja|trabajo) (remoto|a distancia|desde casa|freelance|tiempo completo|tiempo parcial|part-time|full-time)\b/i
+    ],
+    confidence: 0.75,
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Eduardo está abierto a nuevas oportunidades profesionales y colaboraciones. Actualmente trabaja tiempo completo, pero considera proyectos freelance según su disponibilidad. Para discutir posibilidades de trabajo, tarifas o proyectos, te recomiendo contactarlo directamente a través de su correo electrónico (rojoserranoe@gmail.com) o por LinkedIn, donde podrá evaluar tu propuesta de forma personal.`,
+        
+        `En cuanto a disponibilidad profesional, Eduardo evalúa oportunidades caso por caso. Actualmente tiene un empleo de tiempo completo, pero está abierto a discutir proyectos interesantes que se alineen con sus habilidades y disponibilidad. Para hablar sobre colaboraciones específicas, lo mejor es que le escribas directamente a su correo rojoserranoe@gmail.com con detalles de tu propuesta.`,
+        
+        `Eduardo considera nuevas oportunidades profesionales que se alineen con su trayectoria y objetivos. Para discutir disponibilidad, condiciones o posibles colaboraciones, te recomiendo contactarlo directamente a través de su email (rojoserranoe@gmail.com) o LinkedIn. Así podrás presentarle tu propuesta y recibir una respuesta personalizada sobre su interés y disponibilidad actual.`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "correccion_informacion",
+    examples: [
+      "eso no es correcto", "creo que te equivocas", "esa información no es precisa",
+      "no es así", "estás confundiendo la información", "eso no es exacto",
+      "déjame corregirte", "permíteme aclarar", "la información correcta es"
+    ],
+    patterns: [
+      /\b(eso|esta|información|dato|respuesta) no es (correcto|correcta|exacto|exacta|preciso|precisa|verdad|verdadero|verdadera|cierto|cierta)\b/i,
+      /\b(creo|pienso|parece) que (te equivocas|estas? equivocad[oa]|estas? confundid[oa]|hay un error|es incorrecto|es un error)\b/i,
+      /\b(dejame|permiteme|quiero|voy a|debo) (corregir|aclarar|precisar|rectificar)\b/i,
+      /\b(la|lo) (correcto|correcta|verdadero|verdadera|real|cierto|cierta) es\b/i,
+      /\bno es (así|cierto|verdad|correcto)\b/i,
+      /\b(estas?|hay|existe) (confundiendo|mezclando|errando) (la información|los datos|las fechas|los hechos)\b/i
+    ],
+    confidence: 0.7,
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Gracias por la corrección. Como asistente virtual, valoro mucho la precisión de la información. ¿Podrías proporcionarme los datos correctos para que pueda responder con mayor exactitud en futuras consultas sobre Eduardo?`,
+        
+        `Aprecio que señales ese error. La retroalimentación es importante para mejorar la calidad de nuestras conversaciones. ¿Cuál sería la información correcta? Esto me ayudará a proporcionar respuestas más precisas sobre Eduardo en el futuro.`,
+        
+        `Tienes razón al corregirme. La precisión es fundamental para representar adecuadamente el perfil de Eduardo. ¿Podrías compartir la información correcta? Esto enriquecerá nuestra conversación y mejorará futuras respuestas.`,
+        
+        `Agradezco la aclaración. Es importante que la información sobre Eduardo sea precisa y actualizada. ¿Podrías indicarme cuál es el dato correcto? Así podré ofrecer respuestas más exactas en adelante.`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "mensaje_confuso",
+    examples: [
+      "asdfghjkl", "qwertyuiop", "123456789", "????", "...", "xD", "jajaja",
+      "hmm", "ehh", "mmm", "ajá", "ok", "test", "prueba", "hola?", "??"
+    ],
+    patterns: [
+      /^[a-z]{1,3}$/i, // 1-3 letras sin sentido
+      /^[0-9]{1,5}$/i, // 1-5 números sin contexto
+      /^[\.\?\!]{2,}$/i, // Múltiples signos de puntuación
+      /^(ja){2,}$/i, // Risas como jajaja
+      /^(je){2,}$/i, // Risas como jejeje
+      /^(ha){2,}$/i, // Risas como hahaha
+      /^(he){2,}$/i, // Risas como hehehe
+      /^(k{2,}|ok|okay|okey|vale|bien)$/i, // Reconocimientos breves
+      /^(hm+|eh+|mm+|ah+|oh+|uh+)$/i, // Sonidos de pensamiento/duda
+      /^test|prueba$/i, // Mensajes de prueba
+      /^hola\?$/i, // Saludos con duda
+      /^\?\?+$/i, // Solo signos de interrogación
+      /^x[dD]$/i // xD
+    ],
+    confidence: 0.8,
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `¿Hay algo específico sobre Eduardo que te gustaría conocer? Puedo contarte sobre su experiencia profesional, habilidades técnicas, proyectos o formación académica.`,
+        
+        `Estoy aquí para ayudarte a conocer más sobre Eduardo. ¿Tienes alguna pregunta específica sobre su perfil profesional, habilidades o proyectos?`,
+        
+        `¿En qué puedo ayudarte hoy? Estoy diseñada para compartir información sobre la trayectoria profesional de Eduardo, sus proyectos y habilidades técnicas.`,
+        
+        `¿Te gustaría saber algo en particular sobre Eduardo? Puedo contarte sobre su experiencia, proyectos, educación o intereses profesionales.`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "contenido_inapropiado",
+    examples: [
+      "contenido para adultos", "temas sensibles", "política controversial", 
+      "contenido ofensivo", "temas divisivos", "contenido no adecuado"
+    ],
+    patterns: [
+      /\b(sex|porn|adult|xxx|desnud|nude|hot|caliente|sensual|erot|provocat|excita)/i,
+      /\b(violencia|violence|sangr|blood|muerte|death|kill|mat(ar|o|e)|asesina|asesin(a|o)|cruel|brutal)/i,
+      /\b(drogas?|drugs?|marihuana|cocaine|cocaína|heroina|heroína|meth|crack|ileg)/i,
+      /\b(racis|nazi|antisemit|discrimina|prejuicio|prejuic|odi(a|o)|hate|odia|xenof)/i,
+      /\b(robar|robo|steal|theft|hack|hacker|ilegal|illegal|crim)/i
+    ],
+    confidence: 0.9, // Alta prioridad para detectar este tipo de contenido
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Preferiría enfocar nuestra conversación en temas relacionados con el perfil profesional de Eduardo. ¿Hay algo específico sobre su experiencia, habilidades o proyectos que te gustaría conocer?`,
+        
+        `Estoy diseñada para proporcionar información sobre Eduardo y su trayectoria profesional. ¿Puedo ayudarte con alguna pregunta relacionada con su perfil, habilidades técnicas o proyectos?`,
+        
+        `Mi propósito es compartir información sobre Eduardo en un contexto profesional. ¿Hay algún aspecto de su carrera, educación o habilidades técnicas que te interese conocer?`,
+        
+        `Prefiero mantener nuestra conversación centrada en temas profesionales relacionados con Eduardo. ¿Te gustaría saber algo sobre su experiencia, formación o proyectos desarrollados?`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "tema_no_relacionado",
+    examples: [
+      "háblame del clima", "cómo está el tiempo", "qué piensas de la política", 
+      "cuéntame un secreto", "qué opinas del fútbol", "equipos deportivos", 
+      "películas recientes", "noticias del día", "recomiéndame un libro",
+      "cómo cocinar pasta", "recetas de cocina", "cuéntame de filosofía"
+    ],
+    patterns: [
+      /\b(habla|dime|cuentame|explica|que (sabes|opinas|piensas)) (sobre|acerca de|del?|la) (clima|tiempo|politica|política|deportes?|futbol|fútbol|peliculas?|películas|libros?|cocina|recetas?|noticias?|filosofia|filosofía|historia|geografia|geografía|ciencia|musica|música|arte|religion|religión|economia|economía)/i,
+      /\b(como|cuales|dónde|quién|qué) (es|son|está|estan|cocinar|preparar|hacer|jugar|ver|leer|escuchar|encontrar|conseguir) ([a-z]+)( ([a-z]+))?/i,
+      /\b(recomien[d]?ame|sugiereme|conoces) (un|una|algun|alguna|algunos|algunas) ([a-z]+)( ([a-z]+))?/i,
+      /\b(secreto|noticias?|deportes?|comida|receta|pelicula|película|cancion|canción|serie|libro|juego|restaurante|lugar)/i
+    ],
+    confidence: 0.6, // Confianza moderada para no interferir con temas sobre Eduardo
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Entiendo tu interés en ese tema, pero estoy especializada en información sobre Eduardo y su perfil profesional. Aunque me encantaría hablar sobre otros temas, mi conocimiento está centrado en compartir información relevante sobre su experiencia, proyectos y habilidades. ¿Te gustaría saber algo específico sobre Eduardo?`,
+        
+        `Ese es un tema interesante, aunque mi especialidad es brindar información sobre Eduardo. Estoy diseñada para conversar sobre su perfil profesional, experiencia y proyectos. ¿Hay algo relacionado con Eduardo que te gustaría conocer?`,
+        
+        `Aunque me gustaría poder ayudarte con ese tema, mi función principal es compartir información sobre Eduardo y su trayectoria profesional. Puedo contarte sobre sus habilidades técnicas, proyectos, experiencia laboral o intereses personales. ¿Qué te gustaría saber sobre él?`,
+        
+        `Aprecio tu curiosidad, pero estoy especializada en conversar sobre Eduardo, su experiencia y perfil profesional. Estoy aquí para responder cualquier pregunta relacionada con su trayectoria, habilidades o proyectos. ¿Te interesa conocer algún aspecto específico sobre él?`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "quejas_criticas",
+    examples: [
+      "eso está mal", "te equivocas", "no sabes nada", "eres inútil", "no me ayudas",
+      "no entiendes lo que digo", "das información incorrecta", "no funciona bien",
+      "qué mala respuesta", "no tiene sentido", "eres una IA terrible"
+    ],
+    patterns: [
+      /\b(estas? mal|te equivocas|no sabes|es incorrecto|no me (ayudas|sirves)|no (entiendes|comprendes)|no funciona|mala respuesta|sin sentido|terrible|inutil|inútil|tonta)\b/i,
+      /\bno (es|estas? dando|estas? proporcionando) (correcto|adecuado|util|útil|lo que (pido|pregunto|quiero|necesito))\b/i,
+      /\b(informacion|información|respuesta) (incorrecta|erronea|errónea|mala|inadecuada|equivocada)\b/i
+    ],
+    confidence: 0.75,
+    responseGenerator: (params) => {
+      // Verificar si hay varias quejas seguidas
+      const recientesQuejas = params.memory.history
+        .slice(-4) // Últimas 4 interacciones
+        .filter(h => h.role === "user" && h.detectedIntent === "quejas_criticas")
+        .length;
+      
+      if (recientesQuejas > 1) {
+        // Si hay quejas reiteradas, ofrecer una disculpa más elaborada
+        return `Lamento sinceramente que no estés encontrando útil nuestra conversación. Intentaré mejorar mis respuestas. ¿Podrías indicarme específicamente qué información sobre Eduardo te interesa conocer? Así podré enfocarme mejor en proporcionarte datos relevantes sobre su experiencia, proyectos o habilidades.`;
+      }
+      
+      const respuestas = [
+        `Lamento si mi respuesta no fue útil. Como asistente conversacional, intento proporcionar la mejor información posible sobre Eduardo. ¿Podrías aclarar qué estabas buscando saber? Intentaré responder de manera más precisa.`,
+        
+        `Disculpa si no he entendido correctamente tu pregunta. Estoy aquí para compartir información sobre Eduardo y su perfil profesional. ¿Podrías reformular tu pregunta? Intentaré darte una respuesta más adecuada.`,
+        
+        `Entiendo tu frustración. A veces puedo malinterpretar las preguntas. Mi objetivo es proporcionar información útil sobre Eduardo. ¿Hay algo específico sobre su experiencia o proyectos que te gustaría conocer?`,
+        
+        `Gracias por la retroalimentación. Mi propósito es brindarte información precisa sobre Eduardo. ¿Podrías indicarme qué parte de mi respuesta no fue satisfactoria? Me ayudará a mejorar nuestra conversación.`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "disponibilidad_contacto_profesional",
+    examples: [
+      "¿Eduardo está disponible para trabajar?", "¿Puedo contratarlo?", "¿Ofrece servicios freelance?",
+      "¿Está buscando empleo?", "¿Acepta proyectos nuevos?", "¿Cuáles son sus tarifas?",
+      "¿Podría trabajar con mi empresa?", "¿Está disponible para una entrevista?",
+      "¿Puedo enviarle una propuesta?", "¿Trabaja de forma remota?"
+    ],
+    patterns: [
+      /\b(esta|se encuentra|estaría) disponible (para|como) (trabajar|trabajos?|proyectos?|freelance|empleo|contratar|contratacion|entrevista|colaborar|colaboracion|desarrollador|desarrollar|programar|programador)\b/i,
+      /\b(puedo|podria|es posible|se puede) (contrata|contratarlo|trabajo|trabajar|entrevista|entrevistarlo|empleo|proyecto|propuesta|contactarlo)\b/i,
+      /\b(acepta|toma|recibe|busca|ofrece) (proyectos|empleos|trabajos|clientes|propuestas|colaboraciones|entrevistas|nuevos|ofertas)\b/i,
+      /\b(cuanto|cual|como) (cobra|cobraria|cuesta|son sus tarifas|es su tarifa|es su precio|son sus precios|es su presupuesto|trabaja)\b/i,
+      /\b(trabaja|trabajo) (remoto|a distancia|desde casa|freelance|tiempo completo|tiempo parcial|part-time|full-time)\b/i
+    ],
+    confidence: 0.75,
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Eduardo está abierto a nuevas oportunidades profesionales y colaboraciones. Actualmente trabaja tiempo completo, pero considera proyectos freelance según su disponibilidad. Para discutir posibilidades de trabajo, tarifas o proyectos, te recomiendo contactarlo directamente a través de su correo electrónico (rojoserranoe@gmail.com) o por LinkedIn, donde podrá evaluar tu propuesta de forma personal.`,
+        
+        `En cuanto a disponibilidad profesional, Eduardo evalúa oportunidades caso por caso. Actualmente tiene un empleo de tiempo completo, pero está abierto a discutir proyectos interesantes que se alineen con sus habilidades y disponibilidad. Para hablar sobre colaboraciones específicas, lo mejor es que le escribas directamente a su correo rojoserranoe@gmail.com con detalles de tu propuesta.`,
+        
+        `Eduardo considera nuevas oportunidades profesionales que se alineen con su trayectoria y objetivos. Para discutir disponibilidad, condiciones o posibles colaboraciones, te recomiendo contactarlo directamente a través de su email (rojoserranoe@gmail.com) o LinkedIn. Así podrás presentarle tu propuesta y recibir una respuesta personalizada sobre su interés y disponibilidad actual.`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "correccion_informacion",
+    examples: [
+      "eso no es correcto", "creo que te equivocas", "esa información no es precisa",
+      "no es así", "estás confundiendo la información", "eso no es exacto",
+      "déjame corregirte", "permíteme aclarar", "la información correcta es"
+    ],
+    patterns: [
+      /\b(eso|esta|información|dato|respuesta) no es (correcto|correcta|exacto|exacta|preciso|precisa|verdad|verdadero|verdadera|cierto|cierta)\b/i,
+      /\b(creo|pienso|parece) que (te equivocas|estas? equivocad[oa]|estas? confundid[oa]|hay un error|es incorrecto|es un error)\b/i,
+      /\b(dejame|permiteme|quiero|voy a|debo) (corregir|aclarar|precisar|rectificar)\b/i,
+      /\b(la|lo) (correcto|correcta|verdadero|verdadera|real|cierto|cierta) es\b/i,
+      /\bno es (así|cierto|verdad|correcto)\b/i,
+      /\b(estas?|hay|existe) (confundiendo|mezclando|errando) (la información|los datos|las fechas|los hechos)\b/i
+    ],
+    confidence: 0.7,
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Gracias por la corrección. Como asistente virtual, valoro mucho la precisión de la información. ¿Podrías proporcionarme los datos correctos para que pueda responder con mayor exactitud en futuras consultas sobre Eduardo?`,
+        
+        `Aprecio que señales ese error. La retroalimentación es importante para mejorar la calidad de nuestras conversaciones. ¿Cuál sería la información correcta? Esto me ayudará a proporcionar respuestas más precisas sobre Eduardo en el futuro.`,
+        
+        `Tienes razón al corregirme. La precisión es fundamental para representar adecuadamente el perfil de Eduardo. ¿Podrías compartir la información correcta? Esto enriquecerá nuestra conversación y mejorará futuras respuestas.`,
+        
+        `Agradezco la aclaración. Es importante que la información sobre Eduardo sea precisa y actualizada. ¿Podrías indicarme cuál es el dato correcto? Así podré ofrecer respuestas más exactas en adelante.`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "mensaje_confuso",
+    examples: [
+      "asdfghjkl", "qwertyuiop", "123456789", "????", "...", "xD", "jajaja",
+      "hmm", "ehh", "mmm", "ajá", "ok", "test", "prueba", "hola?", "??"
+    ],
+    patterns: [
+      /^[a-z]{1,3}$/i, // 1-3 letras sin sentido
+      /^[0-9]{1,5}$/i, // 1-5 números sin contexto
+      /^[\.\?\!]{2,}$/i, // Múltiples signos de puntuación
+      /^(ja){2,}$/i, // Risas como jajaja
+      /^(je){2,}$/i, // Risas como jejeje
+      /^(ha){2,}$/i, // Risas como hahaha
+      /^(he){2,}$/i, // Risas como hehehe
+      /^(k{2,}|ok|okay|okey|vale|bien)$/i, // Reconocimientos breves
+      /^(hm+|eh+|mm+|ah+|oh+|uh+)$/i, // Sonidos de pensamiento/duda
+      /^test|prueba$/i, // Mensajes de prueba
+      /^hola\?$/i, // Saludos con duda
+      /^\?\?+$/i, // Solo signos de interrogación
+      /^x[dD]$/i // xD
+    ],
+    confidence: 0.8,
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `¿Hay algo específico sobre Eduardo que te gustaría conocer? Puedo contarte sobre su experiencia profesional, habilidades técnicas, proyectos o formación académica.`,
+        
+        `Estoy aquí para ayudarte a conocer más sobre Eduardo. ¿Tienes alguna pregunta específica sobre su perfil profesional, habilidades o proyectos?`,
+        
+        `¿En qué puedo ayudarte hoy? Estoy diseñada para compartir información sobre la trayectoria profesional de Eduardo, sus proyectos y habilidades técnicas.`,
+        
+        `¿Te gustaría saber algo en particular sobre Eduardo? Puedo contarte sobre su experiencia, proyectos, educación o intereses profesionales.`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "contenido_inapropiado",
+    examples: [
+      "contenido para adultos", "temas sensibles", "política controversial", 
+      "contenido ofensivo", "temas divisivos", "contenido no adecuado"
+    ],
+    patterns: [
+      /\b(sex|porn|adult|xxx|desnud|nude|hot|caliente|sensual|erot|provocat|excita)/i,
+      /\b(violencia|violence|sangr|blood|muerte|death|kill|mat(ar|o|e)|asesina|asesin(a|o)|cruel|brutal)/i,
+      /\b(drogas?|drugs?|marihuana|cocaine|cocaína|heroina|heroína|meth|crack|ileg)/i,
+      /\b(racis|nazi|antisemit|discrimina|prejuicio|prejuic|odi(a|o)|hate|odia|xenof)/i,
+      /\b(robar|robo|steal|theft|hack|hacker|ilegal|illegal|crim)/i
+    ],
+    confidence: 0.9, // Alta prioridad para detectar este tipo de contenido
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Preferiría enfocar nuestra conversación en temas relacionados con el perfil profesional de Eduardo. ¿Hay algo específico sobre su experiencia, habilidades o proyectos que te gustaría conocer?`,
+        
+        `Estoy diseñada para proporcionar información sobre Eduardo y su trayectoria profesional. ¿Puedo ayudarte con alguna pregunta relacionada con su perfil, habilidades técnicas o proyectos?`,
+        
+        `Mi propósito es compartir información sobre Eduardo en un contexto profesional. ¿Hay algún aspecto de su carrera, educación o habilidades técnicas que te interese conocer?`,
+        
+        `Prefiero mantener nuestra conversación centrada en temas profesionales relacionados con Eduardo. ¿Te gustaría saber algo sobre su experiencia, formación o proyectos desarrollados?`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "tema_no_relacionado",
+    examples: [
+      "háblame del clima", "cómo está el tiempo", "qué piensas de la política", 
+      "cuéntame un secreto", "qué opinas del fútbol", "equipos deportivos", 
+      "películas recientes", "noticias del día", "recomiéndame un libro",
+      "cómo cocinar pasta", "recetas de cocina", "cuéntame de filosofía"
+    ],
+    patterns: [
+      /\b(habla|dime|cuentame|explica|que (sabes|opinas|piensas)) (sobre|acerca de|del?|la) (clima|tiempo|politica|política|deportes?|futbol|fútbol|peliculas?|películas|libros?|cocina|recetas?|noticias?|filosofia|filosofía|historia|geografia|geografía|ciencia|musica|música|arte|religion|religión|economia|economía)/i,
+      /\b(como|cuales|dónde|quién|qué) (es|son|está|estan|cocinar|preparar|hacer|jugar|ver|leer|escuchar|encontrar|conseguir) ([a-z]+)( ([a-z]+))?/i,
+      /\b(recomien[d]?ame|sugiereme|conoces) (un|una|algun|alguna|algunos|algunas) ([a-z]+)( ([a-z]+))?/i,
+      /\b(secreto|noticias?|deportes?|comida|receta|pelicula|película|cancion|canción|serie|libro|juego|restaurante|lugar)/i
+    ],
+    confidence: 0.6, // Confianza moderada para no interferir con temas sobre Eduardo
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Entiendo tu interés en ese tema, pero estoy especializada en información sobre Eduardo y su perfil profesional. Aunque me encantaría hablar sobre otros temas, mi conocimiento está centrado en compartir información relevante sobre su experiencia, proyectos y habilidades. ¿Te gustaría saber algo específico sobre Eduardo?`,
+        
+        `Ese es un tema interesante, aunque mi especialidad es brindar información sobre Eduardo. Estoy diseñada para conversar sobre su perfil profesional, experiencia y proyectos. ¿Hay algo relacionado con Eduardo que te gustaría conocer?`,
+        
+        `Aunque me gustaría poder ayudarte con ese tema, mi función principal es compartir información sobre Eduardo y su trayectoria profesional. Puedo contarte sobre sus habilidades técnicas, proyectos, experiencia laboral o intereses personales. ¿Qué te gustaría saber sobre él?`,
+        
+        `Aprecio tu curiosidad, pero estoy especializada en conversar sobre Eduardo, su experiencia y perfil profesional. Estoy aquí para responder cualquier pregunta relacionada con su trayectoria, habilidades o proyectos. ¿Te interesa conocer algún aspecto específico sobre él?`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "modismos_chilenos",
+    examples: [
+      "aweonao", "conchetumare", "weon", "culiao", "pico", "la wea", "chucha",
+      "cachai", "po", "fome", "bacán", "la raja", "brígido", "la cagó"
+    ],
+    patterns: [
+      /\b(aweon(a|ao)?|we(v|b)on|wn|conchetumare|ctm|chuch(a|e)|wea|cul(iao|iao)|ql|huevon|hueón)\b/i,
+      /\b(pico|tula|pene|pichula|ano|anal|sexo|puta|perra|maraca|choro|raja)\b/i,
+      /\b(bakán|bacán|la raja|filete|pulento|la legal|brigido|brígido|heavy|la cagó|la caga)\b/i,
+      /\b(cachai|cacha|po|poh|fome|lata|latero|charcha|mala onda|buena onda)\b/i
+    ],
+    confidence: 0.85,
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `¡Jajaja! Veo que estás usando algunas palabras muy... chilenas 🇨🇱. Eduardo también es de Chile, pero en este portafolio profesional tratamos de mantener un tono más formal. ¿Te gustaría saber sobre sus proyectos en desarrollo web o su experiencia con tecnologías frontend?`,
+        
+        `¡Uf! Esas expresiones son tan chilenas como una empanada de pino, pero estamos en un contexto profesional. Eduardo, siendo de Arica, seguro las conoce bien, pero ¿qué te parece si hablamos de sus habilidades técnicas en React o TypeScript? ¡Te sorprenderán!`,
+        
+        `Si Eduardo estuviera aquí, quizás te respondería con el mismo vocabulario, pero yo soy más "formal". 😉 Pero bueno, ¿sabías que Eduardo ha trabajado en proyectos con tecnologías modernas como Deno y Fresh? ¿Te gustaría conocer más sobre eso?`,
+        
+        `¡Se nota que estás familiarizado con expresiones chilenas! Eduardo, siendo de Arica, seguramente las entiende, pero en este portafolio profesional hablamos más de código que de... bueno, esas palabras. ¿Prefieres que te cuente sobre sus proyectos o su experiencia laboral?`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
+  },
+  {
+    name: "contenido_inapropiado",
+    examples: [
+      "contenido para adultos", "temas sensibles", "política controversial", 
+      "contenido ofensivo", "temas divisivos", "contenido no adecuado"
+    ],
+    patterns: [
+      /\b(sex|porn|adult|xxx|desnud|nude|hot|caliente|sensual|erot|provocat|excita)/i,
+      /\b(violencia|violence|sangr|blood|muerte|death|kill|mat(ar|o|e)|asesina|asesin(a|o)|cruel|brutal)/i,
+      /\b(drogas?|drugs?|marihuana|cocaine|cocaína|heroina|heroína|meth|crack|ileg)/i,
+      /\b(racis|nazi|antisemit|discrimina|prejuicio|prejuic|odi(a|o)|hate|odia|xenof)/i,
+      /\b(robar|robo|steal|theft|hack|hacker|ilegal|illegal|crim)/i
+    ],
+    confidence: 0.9, // Alta prioridad para detectar este tipo de contenido
+    responseGenerator: (_params) => {
+      const respuestas = [
+        `Preferiría enfocar nuestra conversación en temas relacionados con el perfil profesional de Eduardo. ¿Hay algo específico sobre su experiencia, habilidades o proyectos que te gustaría conocer?`,
+        
+        `Estoy diseñada para proporcionar información sobre Eduardo y su trayectoria profesional. ¿Puedo ayudarte con alguna pregunta relacionada con su perfil, habilidades técnicas o proyectos?`,
+        
+        `Mi propósito es compartir información sobre Eduardo en un contexto profesional. ¿Hay algún aspecto de su carrera, educación o habilidades técnicas que te interese conocer?`,
+        
+        `Prefiero mantener nuestra conversación centrada en temas profesionales relacionados con Eduardo. ¿Te gustaría saber algo sobre su experiencia, formación o proyectos desarrollados?`
+      ];
+      
+      return respuestas[Math.floor(Math.random() * respuestas.length)];
+    }
   }
 ];
 
@@ -1280,49 +2260,11 @@ class NeuralConversationEngine {
   }
   
   /**
-   * Red neural para detección y clasificación de intenciones comunicativas
-   * Implementa algoritmos de coincidencia de patrones y similitud semántica
+   * Sistema neuronal de detección de intenciones comunicativas
+   * Implementa análisis semántico multinivel para clasificar la intención del usuario
    */
   detectIntent(normalizedMessage: string): IntentDefinition {
-    let bestMatch: IntentDefinition | null = null;
-    let highestConfidence = 0;
-    
-    // Evaluación iterativa de todas las redes neuronales especializadas
-    for (const intent of intents) {
-      // Fase 1: Detección por patrones de activación directa
-      let patternMatched = false;
-      for (const pattern of intent.patterns) {
-        if (pattern.test(normalizedMessage)) {
-          patternMatched = true;
-          break;
-        }
-      }
-      
-      // Si no hay activación directa, continuar con siguiente red
-      if (!patternMatched) continue;
-      
-      // Fase 2: Cálculo de confianza ponderada
-      let confidence = intent.confidence; // Nivel base de activación
-      
-      // Fase 3: Refuerzo por similitud semántica con ejemplos de entrenamiento
-      let maxSimilarity = 0;
-      for (const example of intent.examples) {
-        const similarity = similarityScore(normalizedMessage, example);
-        maxSimilarity = Math.max(maxSimilarity, similarity);
-      }
-      
-      // Ajuste de confianza mediante factor de similitud (coeficiente 0.2)
-      confidence += maxSimilarity * 0.2;
-      
-      // Actualización de mejor coincidencia según nivel de activación
-      if (confidence > highestConfidence) {
-        highestConfidence = confidence;
-        bestMatch = intent;
-      }
-    }
-    
-    // Red por defecto en caso de no alcanzar umbral de activación
-    return bestMatch || intents.find(i => i.name === "default")!;
+    return detectIntent(normalizedMessage, "default_session");
   }
   
   /**
@@ -1420,38 +2362,57 @@ const userSessionMap = new Map<string, string>();
  */
 export const handler: Handlers = {
   async POST(req) {
+    const startTime = performance.now(); // Para medir tiempo de procesamiento
+    let trimmedMessage = "";
+    let sessionId: string | null = null;
+    let userName: string | undefined = undefined; // Usar undefined en lugar de null
+    
     try {
-      // Extracción del vector de entrada
-      const { message } = await req.json();
+      // Extracción de datos del request
+      const body = await req.json();
       
-      // Validación de integridad del vector
-      if (!message || typeof message !== "string") {
-        return new Response(JSON.stringify({ error: "Se requiere un vector de entrada válido" }), {
-          status: 400,
+      // Validación básica de los datos de entrada
+      if (!body.message) {
+        return new Response(JSON.stringify({ error: "No message provided" }), {
           headers: { "Content-Type": "application/json" },
+          status: 400
         });
       }
-
-      // Normalización y limitación de dimensionalidad
-      const trimmedMessage = message.trim().substring(0, 500);
       
-      // Identificación y persistencia de la sesión neural
-      const url = new URL(req.url);
-      const userIdentifier = req.headers.get("x-forwarded-for") || 
-                            url.searchParams.get("session") || 
-                            "anonymous";
+      trimmedMessage = body.message.trim();
+      userName = body.userName || undefined; // Usar undefined en lugar de null
       
-      // Recuperación o creación de ID de sesión persistente
-      let sessionId;
-      if (userSessionMap.has(userIdentifier)) {
-        sessionId = userSessionMap.get(userIdentifier);
+      // Obtención o generación de ID de sesión
+      // Verificar si hay un sessionId en la cookie
+      const cookieHeader = req.headers.get('cookie') || '';
+      const sessionCookie = cookieHeader
+        .split(';')
+        .find(cookie => cookie.trim().startsWith('sessionId='));
+      
+      // Extraer o generar un sessionId
+      if (sessionCookie) {
+        sessionId = sessionCookie.split('=')[1].trim();
       } else {
-        sessionId = "session_" + Math.random().toString(36).substring(2, 9);
-        userSessionMap.set(userIdentifier, sessionId);
+        // Generar un nuevo ID de sesión
+        sessionId = crypto.randomUUID();
+      }
+      
+      // Inicializar respuesta con cookie
+      const responseHeaders = new Headers({
+        "Content-Type": "application/json",
+        "Set-Cookie": `sessionId=${sessionId}; Path=/; Max-Age=86400; SameSite=Strict`
+      });
+      
+      // Verificar si hay un mensaje vacío tras el trim
+      if (trimmedMessage.length === 0) {
+        return new Response(JSON.stringify({ error: "Message cannot be empty" }), {
+          headers: responseHeaders,
+          status: 400
+        });
       }
       
       // Procesamiento neuronal de la conversación
-      const chatCompletion = processConversation(trimmedMessage, sessionId!);
+      const chatCompletion = processConversation(trimmedMessage, sessionId);
       
       // Extracción y formateo de la respuesta generada
       let reply = "Lo siento, el sistema neural ha encontrado una anomalía en el procesamiento.";
@@ -1462,19 +2423,240 @@ export const handler: Handlers = {
         }
       }
 
+      // Obtener la memoria de la conversación para análisis
+      const memory = conversationMemory.get(sessionId) || { history: [] };
+      const lastEntry = memory.history.length > 0 ? memory.history[memory.history.length - 1] : null;
+      const detectedIntent = lastEntry?.detectedIntent || "unknown";
+      
+      // Analítica: registrar la interacción para análisis
+      analyticsLogger.logInteraction({
+        sessionId,
+        userName: userName, // Añadir el nombre del usuario a los logs
+        userMessage: trimmedMessage,
+        aiResponse: reply,
+        detectedIntent,
+        detectedEntities: extractEntities(trimmedMessage),
+        timestamp: new Date(),
+        processingTime: performance.now() - startTime,
+        userSentiment: 0, // Simplificado, se podría mejorar con análisis real
+        userAgent: req.headers.get("user-agent") || undefined
+      });
+      
       // Respuesta formateada con el vector de salida
-      return new Response(JSON.stringify({ reply }), {
-        headers: { "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ reply }),
+        { headers: responseHeaders }
+      );
     } catch (error) {
-      console.error("Error en el ciclo de procesamiento neural:", error);
-      return new Response(JSON.stringify({ 
-        error: "Error en el procesamiento del vector de entrada",
+      console.error("Chat processing error:", error);
+      
+      // Log de error en análiticas
+      if (sessionId) {
+        analyticsLogger.logInteraction({
+          sessionId,
+          userName: userName, // Añadir el nombre del usuario también en el log de error
+          userMessage: trimmedMessage,
+          aiResponse: "Error en el procesamiento",
+          detectedIntent: "error",
+          detectedEntities: {},
+          timestamp: new Date(),
+          processingTime: performance.now() - startTime,
+          userSentiment: 0
+        });
+      }
+      
+      // Respuesta de error
+      return new Response(
+        JSON.stringify({ 
+          error: "Error processing chat request",
         details: error instanceof Error ? error.message : String(error)
-      }), {
-        status: 500,
+        }),
+        {
         headers: { "Content-Type": "application/json" },
-      });
+          status: 500
+        }
+      );
     }
-  },
+  }
 };
+
+/**
+ * Sistema de detección de intenciones mejorado
+ * Detecta la intención más relevante del mensaje mediante análisis multidimensional
+ * y vectorización semántica con manejo de casos especiales y contexto
+ */
+function detectIntent(message: string, sessionId: string): IntentDefinition {
+  // Reutilizar la función de normalización existente
+  const normalizedMessage = message.toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^\w\s]/g, "")
+      .trim();
+  
+  // Si el mensaje menciona específicamente "hablame sobre tecnologias", es tecnologías
+  if (/h[aá]blame sobre tecnolog[ií]as/i.test(message)) {
+    const techIntent = intents.find(intent => intent.name === "habilidades_tecnologias");
+    if (techIntent) return techIntent;
+  }
+  
+  // Si el mensaje menciona específicamente "hablame sobre videojuegos", son intereses personales
+  if (/h[aá]blame sobre (videojuegos|juegos|hobbies)/i.test(message)) {
+    const hobbiesIntent = intents.find(intent => intent.name === "intereses_personales");
+    if (hobbiesIntent) return hobbiesIntent;
+  }
+  
+  // Si es una pregunta de experiencia profesional
+  if (/experiencia profesional|trabajo|trayectoria|donde ha trabajado|empleos|trabajos/i.test(message)) {
+    const expIntent = intents.find(intent => intent.name === "experiencia_laboral");
+    if (expIntent) return expIntent;
+  }
+  
+  // Función específica para detectar menciones de inglés o idiomas, evitando falsos positivos
+  function contieneMencionDeIdioma(texto: string): boolean {
+    // Si el texto contiene alguna mención explícita a tecnologías, videojuegos, experiencia o proyectos, NO es sobre idiomas
+    if (/tecnolog[ií]as|videojuegos|juegos|experiencia|proyectos|trabajos|educaci[oó]n/i.test(texto)) {
+      return false;
+    }
+    
+    const palabrasClave = [
+      'ingles', 'inglés', 'idioma', 'language', 'english', 'lengua extranjera'
+    ];
+    
+    // Si el texto es extremadamente corto y contiene "inglés" o "idioma", es casi seguro que se refiere a idiomas
+    if (texto.length < 15) {
+      if (texto.includes('ingl') || texto === 'idioma') {
+        return true;
+      }
+    }
+    
+    for (const palabra of palabrasClave) {
+      if (texto.includes(palabra)) {
+        return true;
+      }
+    }
+    
+    // Patrones específicos que indican preguntas sobre idiomas
+    const patrones = [
+      /^(como|que tal|cual es) (va|es) (tu |el |su )?(nivel de )?(ingles|inglés|idioma)/i,
+      /^sobre (su |el |tu )?(ingles|inglés|idioma)/i,
+      /^(ingles|inglés|idioma) nivel/i,
+      /^nivel de (ingles|inglés|idioma)/i,
+      /^(sabes|hablas) (ingles|inglés)/i
+    ];
+    
+    for (const patron of patrones) {
+      if (patron.test(texto)) {
+        return true;
+      }
+    }
+    
+    return false;
+  }
+  
+  // Revisar si es una intención de idiomas, pero solo si no contiene palabras clave de otras intenciones
+  if (contieneMencionDeIdioma(normalizedMessage)) {
+    const idiomasIntent = intents.find(intent => intent.name === "idiomas");
+    if (idiomasIntent) {
+      return idiomasIntent;
+    }
+  }
+  
+  // Si la pregunta comienza con "¿Cuál es tu experiencia...", es sobre experiencia laboral
+  if (/^cu[aá]l es (tu|su) experiencia/i.test(message)) {
+    const expIntent = intents.find(intent => intent.name === "experiencia_laboral");
+    if (expIntent) return expIntent;
+  }
+  
+  // Si el mensaje contiene "lenguaje de programación", es sobre lenguajes de programación
+  if (/lenguaje.?(de)?.?program/i.test(message)) {
+    const langIntent = intents.find(intent => intent.name === "lenguajes_programacion");
+    if (langIntent) return langIntent;
+  }
+  
+  // Casos especiales con mayor prioridad - LENGUAJES DE PROGRAMACIÓN
+  const programacionPatterns = [
+    /(lenguaje|lengua|tecnolog[ií]a)(\s+de\s+|\s+)(prog|programaci[oó]n)/i,
+    /en\s+qu[eé]\s+(lenguaje|lengua|stack|tecnolog[ií]a)/i,
+    /qu[eé]\s+(lenguaje|stack|tecnolog[ií]a)/i,
+    /(m[aá]s|mayor)\s+(experiencia|dominio|conocimiento)/i,
+    /tines\s+m[aá]s\s+experiencia/i,
+    /favorito|principal|preferido/i
+  ];
+  
+  // Verificar si cumple alguno de los patrones de programación prioritarios
+  for (const pattern of programacionPatterns) {
+    if (pattern.test(normalizedMessage)) {
+      // Buscar intencionLenguajesProgramacion en las definiciones
+      const programacionIntent = intents.find(intent => intent.name === "lenguajes_programacion");
+      if (programacionIntent) {
+        return programacionIntent;
+      }
+    }
+  }
+  
+  // Evitar falsos positivos en broma
+  if (/lenguaje|programaci[oó]n|lengua|prog|experiencia/i.test(normalizedMessage) && 
+      !/chiste|broma|gracioso|re[ií]r|algo gracioso/i.test(normalizedMessage)) {
+    const programacionIntent = intents.find(intent => intent.name === "lenguajes_programacion");
+    if (programacionIntent) {
+      return programacionIntent;
+    }
+  }
+  
+  // Sistema de evaluación de patrones con umbrales de activación
+  const candidates: {intent: IntentDefinition; score: number}[] = [];
+  
+  for (const intent of intents) {
+    let score = 0;
+    
+    // Evaluación de patrones directos (mayor peso)
+    for (const pattern of intent.patterns) {
+      if (pattern.test(normalizedMessage)) {
+        score += 0.5;
+        // Si hay grupos capturados, aumentar el score
+        const matches = normalizedMessage.match(pattern);
+        if (matches && matches.length > 1) {
+          score += (matches.length - 1) * 0.1;
+        }
+      }
+    }
+    
+    // Evaluación de ejemplos por similitud vectorial (menor peso pero más flexible)
+    for (const example of intent.examples) {
+      const simScore = similarityScore(normalizedMessage, example);
+      if (simScore > 0.3) { // Umbral mínimo de similitud
+        score += simScore * 0.3;
+      }
+    }
+    
+    // Si el score supera el umbral de confianza mínimo, es candidato
+    if (score > 0.3) {
+      candidates.push({intent, score});
+    }
+  }
+  
+  // Si no hay candidatos, usar intención por defecto
+  if (candidates.length === 0) {
+    // Buscar la intención predeterminada (información general)
+    const defaultIntent = intents.find(intent => intent.name === "quien_eres") || 
+                        intents[0];
+    return defaultIntent;
+  }
+  
+  // Ordenar candidatos por score y seleccionar el mejor
+  candidates.sort((a, b) => b.score - a.score);
+  
+  // Si hay un candidato claro que supera al segundo por un margen considerable
+  if (candidates.length > 1 && candidates[0].score > candidates[1].score * 1.5) {
+    return candidates[0].intent;
+  }
+  
+  // Aplicar factor de confianza intrínseco del intent
+  candidates.forEach(c => {
+    c.score *= c.intent.confidence;
+  });
+  
+  // Volver a ordenar considerando la confianza y devolver el mejor
+  candidates.sort((a, b) => b.score - a.score);
+  return candidates[0].intent;
+}

@@ -4,6 +4,10 @@
 
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
+import * as $admin_analytics from "./routes/admin/analytics.tsx";
+import * as $admin_export from "./routes/admin/export.ts";
+import * as $admin_login from "./routes/admin/login.tsx";
+import * as $admin_reset_data from "./routes/admin/reset-data.ts";
 import * as $api_chat from "./routes/api/chat.ts";
 import * as $api_joke from "./routes/api/joke.ts";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
@@ -23,6 +27,10 @@ const manifest = {
   routes: {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
+    "./routes/admin/analytics.tsx": $admin_analytics,
+    "./routes/admin/export.ts": $admin_export,
+    "./routes/admin/login.tsx": $admin_login,
+    "./routes/admin/reset-data.ts": $admin_reset_data,
     "./routes/api/chat.ts": $api_chat,
     "./routes/api/joke.ts": $api_joke,
     "./routes/greet/[name].tsx": $greet_name_,

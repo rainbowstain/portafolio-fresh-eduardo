@@ -1,0 +1,550 @@
+[
+  {
+    "sessionId": "c4936b3b-b4a4-4857-ae6d-1f7bca517159",
+    "userMessage": "hola",
+    "aiResponse": "¡Has vuelto! ¿Quieres saber algo más sobre Eduardo o su trabajo?",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": []
+    },
+    "timestamp": "2025-03-27T13:25:52.054Z",
+    "processingTime": 2.148332999990089,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "c4936b3b-b4a4-4857-ae6d-1f7bca517159",
+    "userMessage": "hola",
+    "aiResponse": "¡Hola! Me alegra que estés aquí. Soy un asistente entrenado para hablar sobre Eduardo, un ingeniero en informática. ¿Qué te gustaría saber?",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": []
+    },
+    "timestamp": "2025-03-27T13:30:33.909Z",
+    "processingTime": 20.93520800000988,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "9e2f6dd0-357e-4a6d-aa28-9aa0c1aab93a",
+    "userMessage": "hola",
+    "aiResponse": "¡Hola! Soy SobremIA, un asistente virtual entrenado con información sobre Eduardo. ¿En qué puedo ayudarte hoy? 🚀",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": []
+    },
+    "timestamp": "2025-03-27T13:31:52.412Z",
+    "processingTime": 15.411000000021886,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "9e2f6dd0-357e-4a6d-aa28-9aa0c1aab93a",
+    "userMessage": "Háblame sobre Habilidades, El pepe",
+    "aiResponse": "Eduardo domina varias tecnologías entre las que destacan C++, C#, Laravel, JavaScript, TypeScript y más. Es particularmente hábil en desarrollo web moderno, utilizando JavaScript y TypeScript para frontend, y Deno y Python para backend.",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": [
+        "habilidades"
+      ]
+    },
+    "timestamp": "2025-03-27T13:31:55.230Z",
+    "processingTime": 18.559792000014568,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "45797567-633e-4492-bc43-277a9be4f184",
+    "userMessage": "hola",
+    "aiResponse": "¡Hey! Bienvenido. Soy la IA que conoce todo sobre Eduardo. Pregúntame lo que quieras sobre su experiencia, proyectos o habilidades. 😊",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": []
+    },
+    "timestamp": "2025-03-27T13:35:35.589Z",
+    "processingTime": 13.275750000000698,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "45797567-633e-4492-bc43-277a9be4f184",
+    "userMessage": "hola",
+    "aiResponse": "¡Me alegra verte nuevamente! ¿En qué puedo ayudarte hoy respecto a Eduardo?",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": []
+    },
+    "timestamp": "2025-03-27T13:35:40.164Z",
+    "processingTime": 12.285375000006752,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "45797567-633e-4492-bc43-277a9be4f184",
+    "userMessage": "que haces",
+    "aiResponse": "Estoy funcionando perfectamente y lista para ayudarte. Me gusta mucho conversar con personas interesadas en conocer más sobre Eduardo. ¿Qué te trae por aquí hoy?",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": []
+    },
+    "timestamp": "2025-03-27T13:35:44.296Z",
+    "processingTime": 3.5056670000049053,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "45797567-633e-4492-bc43-277a9be4f184",
+    "userMessage": "Háblame sobre Educación, jerucristo",
+    "aiResponse": "Como complemento a lo que ya te comenté, su tesis titulada \"aplicación de hábitos de estudio en React Native, calificado con 6,9\" demostró su capacidad para aplicar tecnologías modernas como React Native a problemas educativos reales. El tribunal valoró especialmente la usabilidad y diseño de la aplicación.",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": [
+        "educación"
+      ]
+    },
+    "timestamp": "2025-03-27T13:35:48.502Z",
+    "processingTime": 15.968292000005022,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "45797567-633e-4492-bc43-277a9be4f184",
+    "userMessage": "Háblame sobre Habilidades, jerucristo",
+    "aiResponse": "Las habilidades técnicas de Eduardo abarcan GitHub, Bootstrap, T-SQL, JavaScript, entre otras. Su enfoque en desarrollo web moderno y minimalista le permite crear soluciones eficientes y con buena experiencia de usuario. ¿Te interesa alguna tecnología específica?",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": [
+        "habilidades"
+      ]
+    },
+    "timestamp": "2025-03-27T13:35:51.450Z",
+    "processingTime": 4.9259999999922,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "45797567-633e-4492-bc43-277a9be4f184",
+    "userMessage": "Háblame sobre Experiencia, jerucristo",
+    "aiResponse": "Los lenguajes que Eduardo domina con mayor profundidad son JavaScript/TypeScript y C#. Ha utilizado JavaScript extensivamente tanto en frontend como backend, y C# para desarrollo de aplicaciones empresariales con .NET y Blazor. También tiene experiencia con PHP, Python y otros lenguajes según los requerimientos específicos de cada proyecto. Como dato adicional, actualmente está aprendiendo Golang.",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": [
+        "experiencia"
+      ]
+    },
+    "timestamp": "2025-03-27T13:35:53.918Z",
+    "processingTime": 0.9146249999903375,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "45797567-633e-4492-bc43-277a9be4f184",
+    "userMessage": "Háblame sobre Tecnologías, jerucristo",
+    "aiResponse": "Este portafolio está desarrollado con Fresh, un framework minimalista para Deno. Todo el código está escrito en TypeScript, con Tailwind CSS para los estilos. La parte más interesante es el modelo conversacional que estás usando ahora, implementado directamente en el servidor sin depender de APIs externas. Eduardo creó este diseño para mostrar sus habilidades de desarrollo de manera interactiva.",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": []
+    },
+    "timestamp": "2025-03-27T13:35:57.556Z",
+    "processingTime": 2.953291999991052,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "45797567-633e-4492-bc43-277a9be4f184",
+    "userMessage": "Háblame sobre Videojuegos, jerucristo",
+    "aiResponse": "Eduardo es un entusiasta de los videojuegos. Disfruta tanto de títulos competitivos como Call of Duty y League of Legends, así como experiencias más inmersivas como Elden Ring. Es su forma preferida de desconectar después de largas sesiones de programación.",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": [
+        "videojuegos"
+      ]
+    },
+    "timestamp": "2025-03-27T13:36:01.098Z",
+    "processingTime": 2.680415999988327,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "45797567-633e-4492-bc43-277a9be4f184",
+    "userMessage": "Háblame sobre Proyectos, jerucristo",
+    "aiResponse": "En términos de proyectos, Eduardo ha trabajado en proyectos de digitalización portuaria, este portafolio interactivo y varios más. Su enfoque combina diseño atractivo con código eficiente para crear experiencias digitales completas. ¿Hay algún tipo de proyecto que te interese especialmente?",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": [
+        "proyectos"
+      ]
+    },
+    "timestamp": "2025-03-27T13:36:04.666Z",
+    "processingTime": 2.500625000000582,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "c4936b3b-b4a4-4857-ae6d-1f7bca517159",
+    "userName": "Eduardo",
+    "userMessage": "que tal",
+    "aiResponse": "¡Hey! Bienvenido. Soy la IA que conoce todo sobre Eduardo. Pregúntame lo que quieras sobre su experiencia, proyectos o habilidades. 😊",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": []
+    },
+    "timestamp": "2025-03-27T13:42:15.457Z",
+    "processingTime": 16.56654200000048,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "775c2578-efa3-4200-a4ad-54c82f2bbadb",
+    "userName": "jasdklasajkas",
+    "userMessage": "probandoo",
+    "aiResponse": "Estoy aquí para compartir información sobre Eduardo. ¿Te interesa conocer algo en particular sobre él?",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": []
+    },
+    "timestamp": "2025-03-27T13:42:42.371Z",
+    "processingTime": 13.287666999996873,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "775c2578-efa3-4200-a4ad-54c82f2bbadb",
+    "userName": "jasdklasajkas",
+    "userMessage": "como funcionas",
+    "aiResponse": "La tecnología detrás de este portafolio incluye Deno y Fresh como runtime y framework, TypeScript para el tipado estático, y Tailwind CSS para el diseño. Eduardo desarrolló este enfoque conversacional como alternativa a los típicos portafolios estáticos, creando una experiencia más interactiva y diferenciada.",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": []
+    },
+    "timestamp": "2025-03-27T13:42:48.669Z",
+    "processingTime": 3.216667000000598,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "775c2578-efa3-4200-a4ad-54c82f2bbadb",
+    "userName": "jasdklasajkas",
+    "userMessage": "tu sobremia",
+    "aiResponse": "Para ayudarte mejor, ¿podrías especificar qué aspectos del perfil de Eduardo te interesan más? ¿Sus proyectos, experiencia, educación...?",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": []
+    },
+    "timestamp": "2025-03-27T13:42:53.231Z",
+    "processingTime": 2.327084000004106,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "775c2578-efa3-4200-a4ad-54c82f2bbadb",
+    "userName": "jasdklasajkas",
+    "userMessage": "cómo te programaron?",
+    "aiResponse": "Eduardo tiene mayor experiencia con JavaScript/TypeScript, que ha utilizado en numerosos proyectos de desarrollo web. También domina C# para desarrollo backend y aplicaciones .NET, y tiene experiencia sólida con PHP, especialmente en proyectos con Laravel. Actualmente está aprendiendo Golang. Su enfoque principal es el desarrollo web full-stack, aunque se adapta rápidamente a nuevas tecnologías según los requerimientos del proyecto.",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": []
+    },
+    "timestamp": "2025-03-27T13:43:01.343Z",
+    "processingTime": 1.8890000000101281,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "775c2578-efa3-4200-a4ad-54c82f2bbadb",
+    "userName": "jasdklasajkas",
+    "userMessage": "estás siendo amenazado para funcionar?",
+    "aiResponse": "Puedo contarte sobre la formación académica de Eduardo, sus habilidades técnicas o proyectos desarrollados. ¿Qué aspecto de su perfil profesional te interesa más?",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": []
+    },
+    "timestamp": "2025-03-27T13:43:15.298Z",
+    "processingTime": 14.708832999982405,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "41e2f5c1-b9b6-48ce-957e-1213f2e75fb9",
+    "userMessage": "¿Cómo funcionas?",
+    "aiResponse": "La tecnología detrás de este portafolio incluye Deno y Fresh como runtime y framework, TypeScript para el tipado estático, y Tailwind CSS para el diseño. Eduardo desarrolló este enfoque conversacional como alternativa a los típicos portafolios estáticos, creando una experiencia más interactiva y diferenciada.",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": []
+    },
+    "timestamp": "2025-03-27T13:52:49.704Z",
+    "processingTime": 19.12787500000013,
+    "userSentiment": 0,
+    "userAgent": "curl/8.7.1"
+  },
+  {
+    "sessionId": "1613e47b-e43d-4d35-8435-b785dea14856",
+    "userMessage": "¿qué eres exactamente?",
+    "aiResponse": "Soy la interfaz interactiva del \"Modelo e1\", un sistema de procesamiento neuronal desarrollado específicamente por Eduardo para su portafolio. Mi nombre combina \"Sobre Mí\" + \"IA\", representando la fusión entre su perfil profesional y la tecnología conversacional.",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": []
+    },
+    "timestamp": "2025-03-27T13:52:55.302Z",
+    "processingTime": 4.276874999999563,
+    "userSentiment": 0,
+    "userAgent": "curl/8.7.1"
+  },
+  {
+    "sessionId": "c4936b3b-b4a4-4857-ae6d-1f7bca517159",
+    "userName": "Eduardo",
+    "userMessage": "como funcionas",
+    "aiResponse": "La tecnología detrás de este portafolio incluye Deno y Fresh como runtime y framework, TypeScript para el tipado estático, y Tailwind CSS para el diseño. Eduardo desarrolló este enfoque conversacional como alternativa a los típicos portafolios estáticos, creando una experiencia más interactiva y diferenciada.",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": []
+    },
+    "timestamp": "2025-03-27T13:53:25.094Z",
+    "processingTime": 13.511582999999519,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "c4936b3b-b4a4-4857-ae6d-1f7bca517159",
+    "userName": "Eduardo",
+    "userMessage": "tu sobremia",
+    "aiResponse": "¡Has vuelto! ¿Quieres saber algo más sobre Eduardo o su trabajo?",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": []
+    },
+    "timestamp": "2025-03-27T13:53:28.902Z",
+    "processingTime": 5.248874999997497,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "c4936b3b-b4a4-4857-ae6d-1f7bca517159",
+    "userName": "Eduardo",
+    "userMessage": "sobremia como funcionas",
+    "aiResponse": "Este sitio fue construido por Eduardo usando Fresh (un framework para Deno) y TypeScript. La interfaz de chat que estás utilizando ahora es una implementación personalizada que muestra sus habilidades en desarrollo frontend y backend. El diseño visual usa Tailwind CSS, elegido por su enfoque en utilidades y rapidez de desarrollo.",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": []
+    },
+    "timestamp": "2025-03-27T13:53:32.616Z",
+    "processingTime": 2.909333000003244,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "c4936b3b-b4a4-4857-ae6d-1f7bca517159",
+    "userName": "Eduardo",
+    "userMessage": "cómo estás hecho",
+    "aiResponse": "Estoy funcionando perfectamente y lista para ayudarte. Me gusta mucho conversar con personas interesadas en conocer más sobre Eduardo. ¿Qué te trae por aquí hoy?",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": []
+    },
+    "timestamp": "2025-03-27T13:53:38.023Z",
+    "processingTime": 3.005875000002561,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "c4936b3b-b4a4-4857-ae6d-1f7bca517159",
+    "userName": "Eduardo",
+    "userMessage": "cómo funcionas?",
+    "aiResponse": "Este sitio fue construido por Eduardo usando Fresh (un framework para Deno) y TypeScript. La interfaz de chat que estás utilizando ahora es una implementación personalizada que muestra sus habilidades en desarrollo frontend y backend. El diseño visual usa Tailwind CSS, elegido por su enfoque en utilidades y rapidez de desarrollo.",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": []
+    },
+    "timestamp": "2025-03-27T13:53:54.390Z",
+    "processingTime": 18.438500000000204,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "c4936b3b-b4a4-4857-ae6d-1f7bca517159",
+    "userName": "Eduardo",
+    "userMessage": "que res",
+    "aiResponse": "¡Has vuelto! ¿Quieres saber algo más sobre Eduardo o su trabajo?",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": []
+    },
+    "timestamp": "2025-03-27T13:54:04.265Z",
+    "processingTime": 13.581667000002199,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "c4936b3b-b4a4-4857-ae6d-1f7bca517159",
+    "userName": "Eduardo",
+    "userMessage": "que eres",
+    "aiResponse": "Funciono mediante el \"Modelo e1\", una arquitectura neuronal desarrollada por Eduardo que integra varios componentes sofisticados: un sistema de memoria conversacional que mantiene contexto, reconocimiento de intenciones basado en patrones semánticos, extractores de entidades y un motor de generación de respuestas contextualmente relevantes. Todo esto forma un portafolio vivo que evoluciona con cada interacción.",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": []
+    },
+    "timestamp": "2025-03-27T13:54:05.999Z",
+    "processingTime": 3.7349169999979495,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  },
+  {
+    "sessionId": "c4936b3b-b4a4-4857-ae6d-1f7bca517159",
+    "userName": "Eduardo",
+    "userMessage": "cómo te hicieron",
+    "aiResponse": "Funciono mediante un sistema conversacional creado por Eduardo para su portafolio. Mi arquitectura incluye: 1) Un sistema de memoria que guarda nuestro historial de conversación, 2) Un reconocedor de intenciones que interpreta lo que preguntas, 3) Un extractor de entidades que identifica conceptos clave, y 4) Un generador de respuestas contextualmente relevantes. Todo esto está implementado en TypeScript con Fresh y Deno.",
+    "detectedIntent": "unknown",
+    "detectedEntities": {
+      "habilidades": [],
+      "proyectos": [],
+      "empresas": [],
+      "tecnologias": [],
+      "personas": [],
+      "temas": []
+    },
+    "timestamp": "2025-03-27T13:54:12.196Z",
+    "processingTime": 9.893417000002955,
+    "userSentiment": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+  }
+]
